@@ -1,0 +1,265 @@
+# How to create a report with Jasper Report
+
+## Introduction
+
+Platform supports report generation through Jasper Report, a reporting engine used to generate PDF documents, starting from template files having .jasper format.
+
+A .jasper template can be created through another tool, named iReport, freely downloadable from
+
+[https://sourceforge.net/projects/ireport/files/iReport/iReport-4.5.1/](https://sourceforge.net/projects/ireport/files/iReport/iReport-4.5.1/)
+
+**Important note**: it is strongly recommended to download and install the 4.5.1 version of iReport, since the current Jasper Report engine version embedded in Platform is the 4.5.1
+
+You can download a more recent version but you must be sure to change the compatibility level to 4.5.1 and be sure to use ONLY iReport features supported in 4.5.1 and not the most recent ones.
+
+Once downloaded and installed iReport, you can start creating your own report templates.
+
+iReport allows you to create a template and save the source file in .jrxml format. It also provides a Compile button used to convert \(compile\) the .jrxml to .jasper \(binary\) format, which is the one you have to upload in Platform and run on it.
+
+## Creating a report in iReport
+
+In order to create a report template, open iReport and choose New -&gt; Report
+
+At this point you can select one of the templates available or simply choose Blank A4.
+
+A report is always composed of the following inputs:
+
+* **parameters**, based on data \(string, date, numeric\) passed forward from Platform
+* **fields**, dynamic data retrieved internally from the report \(or passed forward to it\)
+
+![](.gitbook/assets/schermata-2020-03-16-alle-15.29.19.png)
+
+A report can show:
+
+* not repeated data, like the header of a document
+* a list of rows
+
+Optionally, it is also possible to create nested sub-areas, thanks to the **groups**.
+
+A page is also composed of different sections, from top to bottom:
+
+* **title**, not repeated and showed only in the first page
+* **page header**, repeated in every page
+* **column header**, tipically it contains the labels of column headers
+* **detail**, it contains data repeated for each input row
+* **column footer**, not always used, tipically it contains additional labels for the columns
+* **page footer,** repeated in every page
+* **summary**, not repeated and showed only in the first page
+
+![](.gitbook/assets/schermata-2020-03-16-alle-15.28.01.png)
+
+It is possible to re-size each of them and hide them if not needed all, by changing their height \(by setting it to 0\). You can do it in two ways: either by using the drag 'n drop of the borders between two areas or by selecting the area on the palette on the left \(**Report inspector**\)  ****and set the corresponding height in the **properties palette** on the right.
+
+In addition, a report can contain also a **background** layer, which is painted below the transparent main layer, reported above \(headers, detail, footers...\)
+
+You can add any number of controls from the Palette on the top-right of the iReport editor and put them into one of the areas. Alternatively, you can simply drag parameters/fields available in the Report inspector and drop them into one of the areas.
+
+The main controls are:
+
+* **static text** - a label whose content doesn't change
+* **text field**  - a parameter/variable/field/translation or a concatenation of them and static content
+
+Examples for a text field:
+
+```text
+$F{FIRST_NAME}
+$F{FIRST_NAME}+" "+$F{SURNAME}
+$P{MY_INPUT_PARAMETER}
+$R{textToTranslate}
+```
+
+For more details about how to create a report template, see [here](https://drive.google.com/open?id=0B9VP-oAXtobiVVEyV29VY0l6ek0).
+
+iReport/Jasper Report supports a variety of different data sources for input **fields**: the most common are SQL based data and JSON based data.
+
+In the following sections the two alternatives are described in detail.
+
+## Filling a report starting from SQL
+
+As described above, a report can show:
+
+* not repeated data, like the header of a document
+* a list of rows
+
+The two main areas for the two parts just described are:
+
+* the Title area or the Page header, filled starting from the **main SQL query or parameters**
+* the Detail area, filled with a list of rows, coming from the **subreport SQL query**; alternatively, it would be possible to use the main SQL query here too, if it is a JOIN between header data and row data \(header data duplicated for each row...\)
+
+The main SQL query is defined by right clicking on the root node in the Report Inspector and choose Edit Query: here it is possible to define the SQL query to execute. This query is executed in a specific database schema.
+
+Before doing it, a database schema must be defined. Any number of database schemas can be defined using the **Report Datasources** feature, available in the main toolbar on the top of iReport. Once doing it, the right schema must be selected: the current report will be executed on the selected schema.
+
+Before doing it, the right JDBC driver must be installed within iReport. This can be done by choosing the menubar on the top: **Window -&gt; Services**.
+
+![](.gitbook/assets/schermata-2020-03-16-alle-16.48.59.png)
+
+A **Services** window should appear: right click on the **Drivers** node to add the JDBC driver \(one of more .jar files\).
+
+Finally, a sub-report can be defined for the detail if needed.
+
+## Filling a report starting from a business component
+
+As described above, a report can show:
+
+* not repeated data, like the header of a document
+* a list of rows
+
+The two main areas for the two parts just described are:
+
+* the Title area or the Page header, filled starting from the **main SQL query or parameters of the same business component used for the Detail area**
+* the Detail area, filled with a list of rows, coming from the business component.
+
+Using a business component to fill in the detail area can lead to different scenarios:
+
+* still use the **main SQL query** to fill in the Title/Page header area and use the **business component** only for the detail area, when the data retrieval is so complex that a SQL query is simply not the right choice
+* use the **business component both** for filling in the Title/Page header area and for the detail area; this comes in handy when the data retrieval is so complex that a SQL query is simply not the right choice or when the report is not generated starting from a relational database, so that SQL cannot be used
+* use **input parameters** to fill in the Title/Page header area and use the **business component** only for the detail area, when the data retrieval is so complex that a SQL query is simply not the right choice
+
+The business component to link here MUST be a "Server-side javascript business component for a list" and, consequently, it must provide a JSON string having this format:
+
+```javascript
+{
+  "valueObjectList": [
+  { "name": "...", "surname": "...", ... },
+  { "name": "...", "surname": "...", ... },
+  ...
+  ]
+}
+```
+
+Additional requirements to meet on the iReport side are:
+
+* * the query to set must remain empty BUT the **query language** MUST be set to **JSON**
+  * declared fields must respect the naming of the JSON response, i.e. fields must be attributes \(e.g. name, surname, etc.\); moreover, the “**description**” **property** of each field must be filled too, **with the same attribute name**, otherwise the resulting report will not contain any result \(null values instead of the real values provided by the JSON response\).
+
+## Internationalization
+
+A report can contain translations in terms of:
+
+* text to translate according to the language \(e.g. labels\)
+* data coming from a database, formatted according to the language \(e.g. date format, number format...\)
+
+Date and number formats are automatically passed forward from Platform to Jasper Report engine, so that data is automatically formatted.
+
+With regards to the translation of labels, a series of .properties text files must be created, in the same folder where the .jasper is created, one for each language.
+
+A good practice is to name them as the .jrxml file name. For instance, if the template is **myfile.jrxml,** the corresponding translation files can be: **myfile\_IT.properties, myfile\_EN.properties**
+
+It is important to set the **Resource bundle** report property with the base name for all .properties file, i.e. **myfile**
+
+Once done, the right translations will be automatically fetched at runtime, when executing the report template, according to the language.
+
+For example the italian resource file myfile\_IT.properties can be something like:
+
+```text
+Invoice=Fattura
+Customer=Cliente
+```
+
+**Important note:** you cannot translate Static fields, only Text fields: a Text field can be used to contain something to translate, using the special notation:
+
+```text
+$R{textToTranslate}
+```
+
+where textToTranslate would be an entry in each .property file.
+
+In case of accents, these can be expressed using the Unicode escape format:
+
+```text
+\uxxxx
+```
+
+Look at the following link to figure out the unicode hex values for the most common accents:
+
+[https://unicode.org/charts/PDF/U0080.pdf](https://unicode.org/charts/PDF/U0080.pdf)
+
+## Deploying report artifacts into Platform
+
+A report is composed of at least one file: the .jasper file
+
+Anyway, there can be many other files:
+
+* a .jasper file for each sub-report
+* icons/images referred inside the report \(or sub-report\) with relative path
+* .properties files, one for each supported language
+
+The easiest way to publish all report artifacts into Platform is by creating a .zip file \(without a base folder included in the zip file\).
+
+Once created the .zip file, use **File Manager** to upload it: use the .zip input field, select the local .zip file and upload it, preferably into a "reports" subfolder, within the application sub-context.
+
+Platform will automatically decompress the .zip file and save its content into the "reports" subfolder.
+
+The only exception to this approach is when the Platform application has been defined to work with multiple company ids \(multi-tenancy application\). In such a scenario, the "reports" subfolder does NOT contain the report's artifacts, rather than a subfolder for each company id: each one containing report's artifacts for a specific company id:
+
+* reports
+  * 00000
+    * myfile.jasper
+    * myfile\_subreport1.jasper
+    * company\_00000\_logo.jpg
+    * myfile\_IT.properties
+    * myfile\_EN.properties
+  * 00001
+    * ...
+  * 00002
+    * ...
+
+## Executing a report within Platform
+
+The simplest way to execute a report template and generate a PDF file is by using the utils.saveDocument function, available in a server-side javascript action.
+
+Example:
+
+```javascript
+utils.saveDocument(
+    "myfile.jasper", // template location + name
+    null, // dirReports
+    null, //  datastoreId, 
+    329, // compId
+    "PDF", // reportFormat
+    {
+        InvoiceNr: 1,
+        InvoiceYear: 2020,
+        Customer: "Pinco Pallo"
+    }, // reportParams,
+    "/Users/carniel/Downloads/temp/a.pdf" // savePath
+);
+```
+
+Meaning of the arguments:
+
+**Template relative path + file name**
+
+In the example above, the .jasper file is located in the base dir, i.e. the application sub-context, but it would be better to include all reports artifacts in a subfolder named "reports".
+
+In case of a multi-company application, an additional subfolder is needed, to have different artifacts for different companies, so that the first argument can become:
+
+```javascript
+"reports/"+userInfo.companyId+"/myfile.jasper"
+```
+
+**Template absolute path**
+
+The second argument can be set to null, unless all reports have been stored in a completely different path: in such a scenario, this would be the absolute path where all .jasper files \(and artifacts\) are located.
+
+**Additional datasource**
+
+The additional datasource to use when executing the main SQL query \(and any other sub-report queries\). Set it to null if no SQL query is executed.
+
+**Business component**
+
+This argument is optional: if specified, the corresponding "server-side javascript business component for a list" is executed and the result \(a JSON string\) is passed forward to the report, to fill in the list of rows or any other area.
+
+**Report format**
+
+Supported formats are: PDF or XLS. Pay attention to the XLS format: it should be used carefully, since a report is not optimized for a unlimited width, as for a spreadsheet.
+
+**Report parameters**
+
+Input parameters to pass forward to the report and used by it as $P{myparameters}
+
+**Server absolute path**
+
+The absolute path + file name where saving the resulting PDF document.
+

@@ -1,0 +1,2 @@
+# Error 'smtpHost' is empty
+
