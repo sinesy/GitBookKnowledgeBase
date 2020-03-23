@@ -163,7 +163,7 @@ Finally, set the right format for that field, which can be done in two alternati
 * using the **Pattern** property, where a fixed format can be expressed \(e.g. dd/MM/yyyy\); this is probably unlikely to do, since the report would always has the same format, independently on the current language
 * using the **Pattern expression** property, which can contain something dynamic, reckoned at run-time, example something like: $R{DateFormat}
 
-In the second scenario, you have to include a DateFormat key in any .properties file, where there can be a value as follow:
+In the second scenario, you have to include a DateFormat key in any .properties file, where there can be a value as follows:
 
 ```javascript
 DateFormat=dd/MM/yyyy
@@ -195,6 +195,8 @@ In the second scenario, you have to include a NumberFormat key in any .propertie
 ```javascript
 NumberFormat=#,##0.00
 ```
+
+\*\*\*\*
 
 **Translation of labels**
 
