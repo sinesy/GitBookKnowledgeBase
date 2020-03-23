@@ -204,7 +204,7 @@ A good practice is to name them as the .jrxml file name. For instance, if the te
 
 **Important note:** Pay attention to the language identifiers: they must be expressed in lowercase, otherwise with case-sensitive operating systems like Linux/Unix it would not be recognized.
 
-**Important note: i**t is important to set the **Resource bundle** report property with the base name for all .properties file, i.e. **myfile**
+**Important note:** it is important to set the **Resource bundle** report property with the base name for all .properties file, i.e. **myfile**
 
 Once done, the right translations will be automatically fetched at runtime, when executing the report template, according to the language.
 
