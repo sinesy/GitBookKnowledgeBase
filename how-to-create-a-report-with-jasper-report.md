@@ -140,7 +140,63 @@ A report can contain translations in terms of:
 * text to translate according to the language \(e.g. labels\)
 * data coming from a database, formatted according to the language \(e.g. date format, number format...\)
 
-Date and number formats are automatically passed forward from Platform to Jasper Report engine, so that data is automatically formatted.
+**Date format**
+
+A Date or Date-time input value can be expressed as java.util.Date, java.sql.Date or java.sql.Timestamp or java.lang.String. 
+
+The latter case is when all input data come from a business component which passes forward a JSON string, so dates are converted in text, always expressed as "yyyy-MM-dd HH:mm:ss".
+
+Consequently, according to the type of the input data, an optional conversion from String to Date is needed: in the latter case this conversion is required. In order to do it, select the text field containing the SF{myStringTypeField} and set the following two settings:
+
+* replace the content of **Expression Text Field** property with: 
+
+```javascript
+new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse($F{myStringTypeField})
+```
+
+* change the **Expression Class** property from "java.lang.String" to "java.sql.Timestamp" \(or "java.sql.Date"\)
+
+At this point the content to show is a Date object.
+
+Finally, set the right format for that field, which can be done in two alternative ways:
+
+* using the **Pattern** property, where a fixed format can be expressed \(e.g. dd/MM/yyyy\); this is probably unlikely to do, since the report would always has the same format, independently on the current language
+* using the **Pattern expression** property, which can contain something dynamic, reckoned at run-time, example something like: $R{DateFormat}
+
+In the second scenario, you have to include a DateFormat key in any .properties file, where there can be a value as follow:
+
+```javascript
+DateFormat=dd/MM/yyyy
+```
+
+
+
+**Number format**
+
+A numeric input value should be always expressed as java.math.BigDecimal. 
+
+In case the input data is expressed as a String, you have first top convert it into a java.math.BigDecimal. In order to do it, select the text field containing the SF{myStringTypeField} and set the following two settings:
+
+* replace the content of **Expression Text Field** property with: 
+
+```javascript
+new java.math.BigDecimal($F{myStringTypeField})
+```
+
+* change the **Expression Class** property from "java.lang.String" to "java.math.BigDecimal"
+
+In order to set the right format, set the right format for that field, which can be done in two alternative ways:
+
+* using the **Pattern** property, where a fixed format can be expressed \(e.g. \#,\#\#0.00\); this is probably unlikely to do, since the report would always has the same format, independently on the current language
+* using the **Pattern expression** property, which can contain something dynamic, reckoned at run-time, example something like: $R{NumberFormat}
+
+In the second scenario, you have to include a NumberFormat key in any .properties file, where there can be a value as follow:
+
+```javascript
+NumberFormat=#,##0.00
+```
+
+**Translation of labels**
 
 With regards to the translation of labels, a series of .properties text files must be created, in the same folder where the .jasper is created, one for each language.
 
