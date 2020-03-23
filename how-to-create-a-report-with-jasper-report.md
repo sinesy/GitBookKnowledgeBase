@@ -144,13 +144,15 @@ Date and number formats are automatically passed forward from Platform to Jasper
 
 With regards to the translation of labels, a series of .properties text files must be created, in the same folder where the .jasper is created, one for each language.
 
-A good practice is to name them as the .jrxml file name. For instance, if the template is **myfile.jrxml,** the corresponding translation files can be: **myfile\_IT.properties, myfile\_EN.properties**
+A good practice is to name them as the .jrxml file name. For instance, if the template is **myfile.jrxml,** the corresponding translation files can be: **myfile\_it.properties, myfile\_en.properties**
 
-It is important to set the **Resource bundle** report property with the base name for all .properties file, i.e. **myfile**
+**Important note:** Pay attention to the language identifiers: they must be expressed in lowercase, otherwise with case-sensitive operating systems like Linux/Unix it would not be recognized.
+
+**Important note: i**t is important to set the **Resource bundle** report property with the base name for all .properties file, i.e. **myfile**
 
 Once done, the right translations will be automatically fetched at runtime, when executing the report template, according to the language.
 
-For example the italian resource file myfile\_IT.properties can be something like:
+For example the italian resource file myfile\_it.properties can be something like:
 
 ```text
 Invoice=Fattura
@@ -163,7 +165,7 @@ Customer=Cliente
 $R{textToTranslate}
 ```
 
-where textToTranslate would be an entry in each .property file.
+where textToTranslate would be an entry in each .property file, where **it is NOT allowed to include spaces** in it: every key must be a text-without-spaces entry.
 
 In case of accents, these can be expressed using the Unicode escape format:
 
@@ -212,9 +214,10 @@ The simplest way to execute a report template and generate a PDF file is by usin
 Example:
 
 ```javascript
+var sourceDirId = ...; 
 utils.saveDocument(
     "myfile.jasper", // template location + name
-    null, // dirReports
+    sourceDirId, // directory id where all .jasper templated are saved (e.g. /opt/tomcat/webapps/platform/appwebcontent/reports)
     null, //  datastoreId, 
     329, // compId
     "PDF", // reportFormat
@@ -231,7 +234,7 @@ Meaning of the arguments:
 
 **Template relative path + file name**
 
-In the example above, the .jasper file is located in the base dir, i.e. the application sub-context, but it would be better to include all reports artifacts in a subfolder named "reports".
+In the example above, the .jasper file is located in a base dir defined through the directory id, which typically is within a "reports" folder located in the application sub-context.
 
 In case of a multi-company application, an additional subfolder is needed, to have different artifacts for different companies, so that the first argument can become:
 
@@ -239,9 +242,15 @@ In case of a multi-company application, an additional subfolder is needed, to ha
 "reports/"+userInfo.companyId+"/myfile.jasper"
 ```
 
+In such a case, the .properties files or any other artifact \(like company logo, etc.\) must be put in the same \(company\) subfolder.
+
 **Template absolute path**
 
-The second argument can be set to null, unless all reports have been stored in a completely different path: in such a scenario, this would be the absolute path where all .jasper files \(and artifacts\) are located.
+The second argument can be set to null, unless all reports have been stored in a different path from the app web-context: in such a scenario, this would be the absolute path where all .jasper files \(and artifacts\) are located. For example the dir id can be defined as:
+
+```javascript
+/opt/tomcat/webapps/platform/appwebcontent/reports
+```
 
 **Additional datasource**
 
