@@ -297,7 +297,7 @@ In the example above, the .jasper file is located in a base dir defined through 
 In case of a multi-company application, an additional subfolder is needed, to have different artifacts for different companies, so that the first argument can become:
 
 ```javascript
-"reports/"+userInfo.companyId+"/myfile.jasper"
+userInfo.companyId+"/myfile.jasper"
 ```
 
 In such a case, the .properties files or any other artifact \(like company logo, etc.\) must be put in the same \(company\) subfolder.
