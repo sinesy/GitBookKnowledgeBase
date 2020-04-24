@@ -235,6 +235,85 @@ Look at the following link to figure out the unicode hex values for the most com
 
 [https://unicode.org/charts/PDF/U0080.pdf](https://unicode.org/charts/PDF/U0080.pdf)
 
+## Filling a sub-report starting from the same business component
+
+A server-side javascript business component can not only be used to fill in the main report, but also to populate data for any number of sub-reports.
+
+You can do it but injecting the returning JSON object as many additional attributes as you want, one for each sub-report. It means that each additional attribute should contain a list of objects, as in this example:
+
+```javascript
+// main list, used to fill in the main report
+var list = [
+    {
+        invoiceNr: 1,
+        invoiceYear: 2020,
+        corpName: "Sinesy srl",
+        productCode: "A1",
+        description: "Articolo Uno",
+        qty: 1,
+        unitPrice: 15,
+        price: 15,
+        createDate: "2020-03-23 11:00:00"
+    },
+        {
+        invoiceNr: 1,
+        invoiceYear: 2020,
+        corpName: "Sinesy srl",
+        productCode: "A2",
+        description: "Articolo 2",
+        qty: 3,
+        unitPrice: 12,
+        price: 36,
+        createDate: "2020-03-23 11:00:00"
+    }
+];
+
+// list used to populate a sub-report
+var vats = [ 
+    {
+        vatCode: '19',
+        vatDescription: 'IVA 19%'
+    }
+    ,
+        {
+    
+        vatCode: '22',
+        vatDescription: 'IVA 22%'
+    }
+];
+
+var response = {
+    valueObjectList: list, // main list, used to fill in the main report
+    vats: vats // additional attribute, containing a list of object used to populate a sub-report
+};
+utils.setReturnValue(JSON.stringify(response));
+```
+
+It is not required to declare the attributes referred by additional lists \(sub-reports\) when defining the object linked to the business component: object's fields are only related to the fields used by the main report.
+
+The next step is on the iReport side, where a sub-report must be created, starting from the main report template:
+
+* click on the SubReport widget in the palette to create a sub-report
+* select "Create new report" and press Next
+* select "Blank A4" and press Next
+* select Empty data source and press Next
+* leave Fields list empty and press Next
+* leave Groups empty and press Next
+* leave the proposed name and position and select the "Save the field same in a parameter" option and press Next
+* select the "Use the same connection" and press Finish
+
+At this point the sub-report has been created: position it in the right place and select it, in order to access its property inspector, where a few settings must be changed:
+
+* change the "Sub-report expression" and remove the proposed path, so that the path+file would be something like: ""./report1\_subreport1.jasper""
+* set the "Connection type" to "Use a Datasource expression"
+* fill in the "Data source expression" with something like $P{REPORT\_DATA\_SOURCE}.subDataSource\("xxxx"\)
+
+where xxx represents the attribute name filled by the business component with a list of objects, used to populate the sub-report. For the example above, xxx would be "vats".
+
+On the sub-report side, set the JSON as the datasource type and define manually thew fields with the same name/description as the attribute names defined by the business component.
+
+That's all!
+
 ## Deploying report artifacts into Platform
 
 A report is composed of at least one file: the .jasper file
