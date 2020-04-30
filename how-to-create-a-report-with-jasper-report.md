@@ -304,7 +304,7 @@ The next step is on the iReport side, where a sub-report must be created, starti
 
 At this point the sub-report has been created: position it in the right place and select it, in order to access its property inspector, where a few settings must be changed:
 
-* change the "Sub-report expression" and remove the proposed path, so that the path+file would be something like: ""./report1\_subreport1.jasper""
+* change the "Sub-report expression" and remove the proposed path, so that the path+file would be something like: "./report1\_subreport1.jasper"
 * set the "Connection type" to "Use a Datasource expression"
 * fill in the "Data source expression" with something like $P{REPORT\_DATA\_SOURCE}.subDataSource\("xxxx"\)
 
