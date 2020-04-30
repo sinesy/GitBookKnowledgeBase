@@ -293,6 +293,7 @@ It is not required to declare the attributes referred by additional lists \(sub-
 
 The next step is on the iReport side, where a sub-report must be created, starting from the main report template:
 
+* on the root node, set as language: Grovvy
 * click on the SubReport widget in the palette to create a sub-report
 * select "Create new report" and press Next
 * select "Blank A4" and press Next
