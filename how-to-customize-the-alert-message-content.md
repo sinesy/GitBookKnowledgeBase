@@ -27,9 +27,9 @@ Apart from the CSS classes, it is possible to customize the notification through
 <table><tr>
 <td class="chatnote" >{typeIcon}</td>
     <td width="100px" class="x-menu-list-item-chat">  {from}  </td>
-    <td width="200px" class="x-menu-list-item-chat" onClick="{openUrl}"><b>{title}</b></td>
+    <td width="200px" class="x-menu-list-item-chat" onClick=\'{openUrl}\'><b>{title}</b></td>
     <td width="150px" class="x-menu-list-item-chat">  {dt}  </td>
-    <td align="right" class="x-menu-list-item-chat chat-icon-close" onClick="{markAsReadUrl}"></td>
+    <td align="right" class="x-menu-list-item-chat chat-icon-close" onClick=\'{markAsReadUrl}\'></td>
 </tr></table>
 ```
 
