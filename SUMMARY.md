@@ -79,4 +79,5 @@
 * [Reading an xls file stored in the specified path](reading-an-xls-file-stored-in-the-specified-path.md)
 * [How to create a report with Jasper Report](how-to-create-a-report-with-jasper-report.md)
 * [How to customize the alert message content](how-to-customize-the-alert-message-content.md)
+* [Setting up a cluster](setting-up-a-cluster.md)
 
