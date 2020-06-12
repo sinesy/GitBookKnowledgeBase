@@ -2,15 +2,15 @@
 
 An application can be considered heavy from the point of view the resources consumption when there is a high consumption of:
 
-* CPU - when there are many concurrent user connections or when there are many batches to execute at the same time
-* RAM - when there are SQL queries which fetch a lot of data to maintain in memory or when there are many concurrent user connections and consequently, a lot of memory consumed by user sessions
-* bandwidth - when there are many concurrent user connections
+* **CPU** - when there are many concurrent user connections or when there are many batches to execute at the same time or batches particularly complex and heavy
+* **memory** - when there are SQL queries which fetch a lot of data, maintained in memory or when there are many concurrent user connections and consequently, a lot of memory consumed by user sessions
+* **bandwidth** - when there are many concurrent user connections
 
 The first step in order to optimize the resource consumption is to analyze what has been developed:
 
-* are there SQL queries which read more than a hundred records? a paginated reading should be always preferred
-* are there many batches on execution? a queue based management should be always preferred in order to execute batches and the number of queues must be limited and predictable \(not depending on data on the database or on data inputs\) and never grater than a few dozens
-* are there an unlimited number of API invocations from external systems: this should be always avoided, by setting each web service with an upper limit on the number of invocations per second
+* are there SQL queries which read more than a hundred records? a paginated reading should be always preferred or a reading using a cursor returning one record a time
+* are there many batches in execution? a queue based management should be always preferred in order to execute batches and the number of queues must be limited and predictable \(not depending on data on the database or on data inputs\) and never greater than a few dozens
+* are there an unlimited number of API invocations from external systems? this should be always avoided, by setting each web service with an upper limit on the number of invocations per second
 
 Once you have carefully tuned your application with regards to what reported above, the only dimensions still out of control should be the number of end users using your system.
 
@@ -25,6 +25,8 @@ Google Cloud Platform can help managing a cluster, composed of a set of VMs \(i.
 
 The Google Load balancer can then distribute incoming HTTP\(s\) requests to specific VMs, in order to manage online functionalities.
 
+In the next sections alternative solutions are reported, according to the complexity of the application and resource consumption.
+
 ### 
 
 ### A cluster composed of exactly two nodes: online and batch
@@ -35,7 +37,7 @@ The cheapest solution is:
   * VM1 - manages online functionalities; **this VM has a fixed IP**
   * VM2 - manages batch functionalities \(scheduled processed and queues\); **this VM has a fixed IP**
 
-This represents the cheapest solution; anyway, it contains two bottlenecks: the VMs are fixed: if they collapse for some reason, the corresponding functionalities are not available any more. 
+This represents the cheapest solution; anyway, it contains two bottlenecks: the VMs are fixed; if they collapse for some reason, the corresponding functionalities are not available any more. 
 
 Consequently, **this solution is good for non multi-tenancy environments** \(e.g. one customer ad hoc installation\), where the resource consumption is predictable and reasonably under control.
 
@@ -88,7 +90,7 @@ Do **not** activate the "Cluster" check-box in the Platform installation; that i
 
 ### A cluster composed of 1 instance group for online and batch
 
-An nearly optimized solution is the one where there is an instance group containing online and batch nodes, that is to say, there is not a clear distinction between batch and online. 
+A nearly optimized solution is the one where there is an instance group containing online and batch nodes, that is to say, there is not a clear distinction between batch and online. 
 
 In such a scenario, you can have this architecture:
 
