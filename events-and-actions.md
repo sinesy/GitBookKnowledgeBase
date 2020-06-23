@@ -168,43 +168,12 @@ invoking a predefined resource class, used to invoke a business component having
 Another javascript function provided by platform that you could include in your client-side javascript actions is the one used to manually manage a file upload:
 
 ```javascript
-uploadFile(title,enabled,fileName,dirId,beforeUploadCallback,afterUploadCallback,errorOnUploadCallback,settings);
+uploadFile(title,enabled,fileName,dirId,beforeUploadCallback,afterUploadCallback,errorOnUploadCallback);
 ```
 
 The syntax for this function includes the following arguments:
 
-* **title**; can be null, in that case, a default title is shown 
-* **enabled** true: upload button is enabled, false: upload button is disabled 
-* **fileName** file name to set in the input field; if it is not empty, then a “Download” and “Preview” buttons are shown too 
-* **dirId** directory id on the server side where saving the file to upload 
-* **beforeUploadCallback** callback function invoked just before the uploading; format: 
-
-```javascript
-function({ filename: “…” }) { 
-  return true|false 
-};   
-// false can block the uploading
-// you can change the file name by working on the argument 
-```
-
-* **afterUploadCallback** callback function invoked after the uploading; format: 
-
-```javascript
-function({ fileName: "….", success: true|false, message: "…" }) 
-// The popup window is automatically closed just before this callback is invoked
-```
-
-* **errorOnUploadCallback** callback function invoked in case of errors on uploading; format: 
-
-```javascript
-function({ error: “…” }) 
-// The popup window is automatically closed just before this callback is invoked
-```
-
-* **settings** - optional javascript object containing additional settings, expressed as attribute-value:
-  * **acceptMimes**: a string containing a list of mime types, separated by comma; example: "image/jpg,image/png" - used to filter the content to upload 
-  * **encriptAttachments**: true\|false - specify if content to upload must be encripted on the server side; in such a case, content must be undecripted when reloading it leater
-  * **panelId**: ... // panel id related to this upload process
+title; can be null, in that case, a default title is shown enabled true: upload button is enabled, false: upload button is disabled fileName file name to set in the input field; if it is not empty, then a “Download” and “Preview” buttons are shown too dirId directory id on the server side where saving the file to upload beforeUploadCallback callback function invoked just before the uploading; format: function\({ filename: “…” }\) { return true\|false }; false can block the uploading. You can change the file name by working on the argument afterUploadCallback callback function invoked after the uploading; format: function\({ fileName: “….”, success: true\|false, message: “…” }\). The popup window is automatically closed just before this callback is invoked errorOnUploadCallback callback function invoked in case of errors on uploading; format: function\({ error: “…” }\). The popup window is automatically closed just before this callback is invoked
 
 Through this arguments you can for instance show a modal dialog prompting the user to select a local file and upload it in the specified folder identified by dirId. After that, you could use the same modal dialog to show a previously uploaded file, through the “Download” or “Preview” buttons, in case you have filled the “fileName” arguments.
 
@@ -225,10 +194,7 @@ uploadFile(
     }, // afterUploadCallback
     function(args) {
         var error = args.error;
-    }, // errorOnUploadCallback
-    {
-      acceptMimes: "image/jpg,image/png,image/gif"
-    } // settings
+    } // errorOnUploadCallback
 );
 ```
 
