@@ -103,6 +103,8 @@ uploadFile(
 
 In case you need to customize completely the content of the popup window hosting your file to upload, you can define a Platform window containing a Platform Editable Panel, where you can include any type of input fields. The only constraint is to include also a **File Type Field**, available only with Editable Panels.
 
+Optionally, you can fill in the advanced property **File Type**, with a list of allowed mime types separated by a comma \(e.g. "image/jpg,image/png"\).
+
 Such a special field is composed of a readonly text field containing the file name to upload and a button used to open the operating system file selection window to select the file to upload. These field provides CSS classes having this format:
 
 > x-form-text x-form-field fileuploadfield-&lt;panelid&gt;-&lt;fielAttribute&gt; x-form-file-text x-form-invalid
