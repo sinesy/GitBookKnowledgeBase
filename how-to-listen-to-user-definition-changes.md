@@ -18,5 +18,12 @@ Moreover, Platform provides also the chance to listen to events related to users
   * **operationType** - can be filled with either "insert" or "update" or "delete", according to the current writing operation
 * vo - the JSON content received from the UI, expressed as a Map \(js object\)
 
+Finally, the "before" action allows to interrupt the writing operation at all, by returning back the following JSON content:
 
+```text
+utils.setReturnValue(JSON.stringify({
+    success: false,
+    message: "thereasonwhy..."
+}));
+```
 
