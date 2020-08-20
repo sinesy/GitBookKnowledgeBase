@@ -18,6 +18,38 @@ Moreover, Platform provides also the chance to listen to events related to users
   * **operationType** - can be filled with either "insert" or "update" or "delete", according to the current writing operation
 * vo - the JSON content received from the UI, expressed as a Map \(js object\)
 
+That is to say:
+
+```text
+var reqParams = {
+    operationType: "update" // or insert or delete...
+};
+
+var vo = {
+    dateExpirationPassword: // a js date
+    decriptedPassword: "..",
+    languagePrm08: { ... } // record of PRM08 for such a user
+    rowVersion: xyz,
+    userIdUpdate: "...",
+    siteIdSub02: xyz,
+    description: "...",
+    isAdmin: "Y", // or "N"
+    userIdCreate: "...",
+    connected: "N",
+    encriptedPassword: "N", // or "Y"
+    password: "...",
+    lastUpdate: // a js date
+    subjectIdSub02: xyz,
+    pk: { companyId: "...", siteId: xyz, userCodeId: "..." },  
+    locked: "N",
+    erasable: "Y",
+    createDate: // a js date
+    status: "E"
+};
+
+//...
+```
+
 Finally, the "before" action allows to interrupt the writing operation at all, by returning back the following JSON content:
 
 ```text
