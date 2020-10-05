@@ -83,4 +83,5 @@
 * [Uploading and downloading files](uploading-and-downloading-files.md)
 * [How to listen to user definition changes](how-to-listen-to-user-definition-changes.md)
 * [How to auto-show a window from login](how-to-auto-show-a-window-from-login.md)
+* [How to manage encrypted fields](how-to-manage-encrypted-fields.md)
 
