@@ -21,7 +21,7 @@
 * [Utility methods](utility-methods.md)
 * [Link auto login](link-auto-login.md)
 * [Creation of a link for the first access of a new user  without give the user a password and forcing](creation-of-a-link-for-the-first-access-of-a-new-user-without-give-the-user-a-password-and-forcing-h.md)
-* [forgot password](forgot-password.md)
+* [Forgot password](forgot-password.md)
 * [setting up default values from values coming from a filter panel](setting-up-default-values-from-values-coming-from-a-filter-panel.md)
 * [identifing the modified record after the alteration](identifing-the-modified-record-after-the-alteration.md)
 * [enabling/disabling checkboxes in a grid](enabling-disabling-checkboxes-in-a-grid.md)

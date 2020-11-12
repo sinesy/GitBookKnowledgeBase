@@ -1,4 +1,4 @@
-# forgot password
+# Forgot password
 
 The functionality, when enabled, shows a "Forgot Password" link in the Login Dialog.
 
