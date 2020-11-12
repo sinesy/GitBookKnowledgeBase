@@ -84,4 +84,5 @@
 * [How to listen to user definition changes](how-to-listen-to-user-definition-changes.md)
 * [How to auto-show a window from login](how-to-auto-show-a-window-from-login.md)
 * [How to manage encrypted fields](how-to-manage-encrypted-fields.md)
+* [How to change CSS settings for a grid row](how-to-change-css-settings-for-a-grid-row.md)
 
