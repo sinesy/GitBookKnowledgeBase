@@ -134,5 +134,16 @@ In any case, you do **not have** to set the SCHEDULER and QUEUES settings \(main
 
 In this way, when starting the Platform web applications for  the batch instance group, each Platform web app will compete to become the main node; moreover, periodically each of these node will check out for the main node availability and can replace it with itself, in case it does not respond any more.
 
+### Notification messages
 
+Another feature strictly connected with a cluster is the notification message used to prompt the user on the UI about events fired by the server layer, through utils.sendAlertxxx methods.
+
+If you have activated a cluster with the tag &lt;cluster&gt;true&lt;/true&gt; there is nothing more to do.
+
+In case of a cluster having a main node \(for scheduled processed/queues\), that is to say, with the tag &lt;cluster&gt;false&lt;/true&gt;, you have also to set 2 additional global properties, in order to make notifications work correctly:
+
+* **MESSAGES\_URL\_SERVER** - this property must contain an URL, related to the fixed node always available and should be set with something like: **https://fixedIP/plktform**
+* **MESSAGES\_IP** this property must contain the IP, related to the fixed node always available and should be set with something like: **fixedIP**
+
+You have always to set bothm, otherwise you could have loops with the fixed node calling itself.
 
