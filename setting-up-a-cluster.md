@@ -145,5 +145,18 @@ In case of a cluster having a main node \(for scheduled processed/queues\), that
 * **MESSAGES\_URL\_SERVER** - this property must contain an URL, related to the fixed node always available and should be set with something like: **https://fixedIP/plktform**
 * **MESSAGES\_IP** this property must contain the IP, related to the fixed node always available and should be set with something like: **fixedIP**
 
-You have always to set bothm, otherwise you could have loops with the fixed node calling itself.
+You have always to set both, otherwise you could have loops with the fixed node calling itself.
+
+### Important notes when updating an application
+
+Independently of the cluster setting you have, when publishing an application \(metadata\) it is important to be sure all nodes in cluster have an updated state. Consequently, it is essential to follow these simple steps:
+
+* stop all Platform services on all nodes but one
+* update metadata on such node 
+* reset the digest, in case you have set an high speed cached environment in production
+* start again all other nodes
+
+If you do not follow these steps, you could have an inconsistent state in any of these nodes.
+
+
 
