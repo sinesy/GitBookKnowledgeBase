@@ -1,10 +1,17 @@
 # How to customize the alert message content
 
-It is possible to customize the notification list on the top-bar.
+It is possible to customize the notification list on the top-bar in terms of:
+
+1. layout and colors, through CSS classes
+2. additional commands to include, through an optional application parameter
+
+
+
+### Customizing Layout and colors, through CSS classes
 
 In the following section we suppose the notification system has been already set up.
 
-It is possible to customize a few settings about the notification list, through a series of CSS classes:
+It is possible to customize a few settings about the notification list, through a series of **CSS classes**:
 
 * **alertButton** - this class is linked to the whole notification container; it csan be used to set a max width, change border, etc.
 * **chatnotificationlist** - this class is related to the title on the top of the notification list; it can be used to change its height or font size/style, etc.
@@ -43,4 +50,37 @@ The supported **variables** are:
 * **markAsReadUrl** - a javascript command to mark the message as read, i.e.  markMessageAsRead\(createDate, userId, note, destinations, pk.logType, pk.logId, conversationId\)
 
 
+
+### Additional commands to include, through an optional application parameter
+
+Through the application parameter ALERT -&gt; "**Command list to add to the alert dialog**", it is possibile to include additional commands to add just after the default commands \(close, close all\) and before the alert messages.
+
+The value required by this parameter must be a JSON string represeting a list of objects, having the following attributes:
+
+* **text** - \(mandatory\) the command text \(it can be translated, if needed, through the Custom section in the Translation feature\)
+* **css** - \(optional\) define an optional CSS class name to use for this item
+* **cmd** - \(mandatory\) define a javascript function expressed as a string with brackets, to invoke when clicking on the command; this function must be declared at global level \(window.xxx...\)
+* **itemId** - \(optional\) the internal name for this command; it can be used to refer the command and access to it, for example to enable/disable it at runtime
+
+Example:
+
+```text
+[{ "text": "Apri", "css": "red", "cmd": "openWindowxxx()", "itemId": "mywindowxxx" },{ "text": "Salva", "css": "red", "cmd": "openW()","disabled": true }]
+```
+
+Note: pay attention to the attribute names, which must be included between double apex ".
+
+Once defined these commands, it is possible to access them, through a utility method on the UI:
+
+> ```text
+> var command = getAlertCommand(String itemId);
+> ```
+
+Example:
+
+```text
+    var commandxxx = getAlertCommand("mywindowxxx");
+    commandxxx.setDisabled(true); // disable the specified com
+
+```
 
