@@ -410,3 +410,31 @@ Input parameters to pass forward to the report and used by it as $P{myparameters
 
 The absolute path + file name where saving the resulting PDF document.
 
+**Formatting numbers**
+
+In case you need to format a numeric value as a String, having a decimal symbol, grouping, a specific number of decimals, you can use the following utility method:
+
+```javascript
+org.wag.java.WAGUtils.formatNumber(
+    Number n,
+    String format,
+    Boolean grouping,
+    String decimalSeparator,
+    String thousandSeparator
+)
+```
+
+You can refer this method from within your .jasper file. The "format" string can be something like: 
+
+"\#\#\#,\#\#\#.00" for example.
+
+Bear in mind that if you refer this scriptlet within your .jrxml file in iReport, you cannot execute a preview in iReport, unless you include the 4wsplatform.jar file in the iReport installation. More specificaly, you have to copy 4wsplatform.jar file to "libs" subfolder.
+
+
+
+
+
+
+
+
+
