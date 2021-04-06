@@ -86,4 +86,5 @@
 * [How to manage encrypted fields](how-to-manage-encrypted-fields.md)
 * [How to change CSS settings for a grid row](how-to-change-css-settings-for-a-grid-row.md)
 * [Customizing a Tree Panel](customizing-a-tree-panel.md)
+* [How to execute complex queries on Google Datastore](how-to-execute-complex-queries-on-google-datastore.md)
 
