@@ -31,10 +31,13 @@ In case of a relatively low number of data to read, it is possible to synchroniz
 
 In order to do it:
 
-1. Use the "**Duplicate Datastore object to CloudSQL**" command, available on the Data model list; this feature creates a new data model \(having "database" type\) starting from the selected Datastore type model; the new object has the same name and field names/types. If you need to align structural changes applied to the Datastore original object to the new one, you can add additional fields to the destination object
-2. Use the "**Sync data to db**" checkbox in the data model definition window for the Datastore object: once checked it, every insert/update/delete operation applied to the Datastore entity will be duplicated in the target relational table; there is not a latency on the Datastore side: the duplication operation is always performed on a separated thread
+1. Use the "**Duplicate Datastore object to CloudSQL**" command, available on the Data model list; this feature creates a new data model \(having "database" type\) starting from the selected Datastore type model; the new object has the same name and field names/types. If you need to align structural changes applied to the Datastore original object to the new one, you can add additional fields to the destination object.
+2. Use the "**Sync data to db**" checkbox in the data model definition window for the Datastore object: once checked it, every insert/update/delete operation applied to the Datastore entity will be duplicated in the target relational table; there is not a latency on the Datastore side: the duplication operation is always performed on a separated thread.
+3. Optionally, you can also refine the sync rule and limit data to duplicate, using a filtering condition \(e.g. companyId==00000\)
 
-An alternative to the step 2 is using the "**Export from Datastore to CloudSQL**".
+An alternative to the steps 2-3 is using the "**Export from Datastore to CloudSQL**" feature, where you can export the whole content \(either as insert or update operations\) and schedule this job to be execute on a regular basis, using a scheduled process.
+
+
 
 
 
