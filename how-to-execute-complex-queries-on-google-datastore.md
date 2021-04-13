@@ -43,7 +43,9 @@ However, in case of a large amount of data created on Datastore \(e.g. tens of t
 
 **Aligning data structure between Datastore \(master repository\) and BigQuery**
 
-In the BigQuery data model definition window, there is a "Align model from Datastore" button, which can be used to copy the Datastore entity definition \(fields\) to BigQuery and all related objects connected to it \(business components, panels\). Use it to quickly align the two models.
+In the BigQuery data model definition window, there is an "Align model from Datastore" button, which can be used to copy the Datastore entity definition \(fields\) to BigQuery and all related objects connected to it \(business components, panels\). Use it to quickly align the two models.
+
+It also ALTER BigQuery table and add new fields coming from Datastore. **This is helpful also when you export-&gt;import metadata from one environment to the other.**
 
 **Involved costs:** BigQuery has a pricing based on \(i\) occupied space and \(ii\) number of records analyzed in a query per month. Whereas the first fee is relatively low for a few Gbytes \(less than 2 euros per 100Gb\), the second fee is proportional to
 
@@ -72,6 +74,8 @@ An alternative to the steps 4-5 is using the "**Export from Datastore to Spanner
 **Aligning data structure between Datastore \(master repository\) and Spanner**
 
 In the Spanner data model definition window, there is a "Align model from Datastore" button, which can be used to copy the Datastore entity definition \(fields\) to Spanner and all related objects connected to it \(business components, panels\). Use it to quickly align the two models.
+
+It also ALTER Spanner table and add new fields coming from Datastore. **This is helpful also when you export-&gt;import metadata from one environment to the other.**
 
 **Important note:** it would be better to opt for the "Sync data to db" approach, rather than the export, since it synchronize data in real time.
 
