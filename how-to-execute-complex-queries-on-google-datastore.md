@@ -41,13 +41,23 @@ An alternative to the steps 4-5 is using the "**Export from Datastore to BigQuer
 
 However, in case of a large amount of data created on Datastore \(e.g. tens of thousands records per day\), the latency due to BigQuery writing \(2-3 seconds per record\) could represent a limitation. In such a scenario, it can be helpful to add a scheduled process using the "Export from Datastore to BigQuery" feature as well, to duplicate a lot of data in a faster way: inserting multiple records as an export is faster than inserting single records through a real time synchronization.
 
-**Aligning data structure between Datastore \(master repository\) and BigQuery**
+### **Aligning data structure between Datastore \(master repository\) and BigQuery**
 
 In the BigQuery data model definition window, there is an "Align model from Datastore" button, which can be used to copy the Datastore entity definition \(fields\) to BigQuery and all related objects connected to it \(business components, panels\). Use it to quickly align the two models.
 
 It also ALTER BigQuery table and add new fields coming from Datastore. **This is helpful also when you export-&gt;import metadata from one environment to the other.**
 
-**Involved costs:** BigQuery has a pricing based on \(i\) occupied space and \(ii\) number of records analyzed in a query per month. Whereas the first fee is relatively low for a few Gbytes \(less than 2 euros per 100Gb\), the second fee is proportional to
+### **Executing queries with aggregated functions**
+
+In case you need to execute a SQL query not only involving fields of the synchronized table but also aggregated functions like SUM, COUNT, etc. combined with GROUP BY keyword, you can di it using the already existing Platform features:
+
+* add a virtual field \(e.g MY\_SUM\) to the BigQuery type model, one for each aggregated function; these fields with not be removed in case you "Align model with Datastore" \(which only adds fields and never removes them\)
+* change the SQL query in your server-side javascript business component and include the corresponding aggregated function and alias \(SELECT SUM\(\*\) AS MY\_SUM from ...\)
+* enable columns in your grid accordingly
+
+### **Involved costs**
+
+BigQuery has a pricing based on \(i\) occupied space and \(ii\) number of records analyzed in a query per month. Whereas the first fee is relatively low for a few Gbytes \(less than 2 euros per 100Gb\), the second fee is proportional to
 
 * the number of queries per month
 * the amount of records analyzed for each query \(analyzed and retrieved is different!\)
