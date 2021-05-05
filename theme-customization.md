@@ -38,7 +38,20 @@ It is not needed to set any additional setting to have rows with different heigh
 
 A good approach can be to bind a server-side javascript business component and use it to fill in the cell content: through javascript you can easily create complex HTML  content, using for example the tags &lt;table&gt; &lt;tr&gt; &lt;td&gt;.
 
-### 
+An alternative approach is to do it on the web layer, through the renderer property of a column, where you can define HTML content, for example using the tags &lt;table&gt; &lt;tr&gt; &lt;td&gt;:
+
+```text
+value = 
+'<table height=200 width=200>'+
+'<tr><td>ID  :</td><td>'+record.data.id+'</td></tr>'+
+'<tr><td>PIN :</td><td>'+record.data.pin+'</td></tr>'+
+'<tr><td>Address :</td><td>'+record.data.address+'</td></tr>'+
+'</table>';
+```
+
+In this example, the record passed to the row must contains attributes named id, pin and address.
+
+
 
 ### Adding additional graphical settings to a grid panel
 
