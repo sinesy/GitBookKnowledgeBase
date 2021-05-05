@@ -36,6 +36,8 @@ See [https://docs.sencha.com/extjs/3.4.0/\#!/api/Ext.form.FormPanel](https://doc
 
 It is not needed to set any additional setting to have rows with different heights: you have simply to set a cell content having multiple lines. Lines can be expressed in HTML format and a new line is represented by the &lt;br&gt; tag.
 
+A good approach can be to bind a server-side javascript business component and use it to fill in the cell content: through javascript you can easily create complex HTML  content, using for example the tags &lt;table&gt; &lt;tr&gt; &lt;td&gt;.
+
 ### 
 
 ### Adding additional graphical settings to a grid panel
