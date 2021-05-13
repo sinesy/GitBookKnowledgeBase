@@ -1,3 +1,7 @@
+---
+description: (6.0.2 version)
+---
+
 # Theme customization
 
 ## Customizing a Filter Panel
@@ -67,7 +71,18 @@ You can include more settings for a filter panel using the "Additional Settings"
 
 [/docs.sencha.com/extjs/3.4.0/\#!/api/Ext.form.FormPanel](https://docs.sencha.com/extjs/3.4.0/#!/api/Ext.grid.GridPanel) to get a whole description of available settings.
 
+## Customizing controls of form and filter panel
 
+You can add, for each control contained in a form and filter panel, one or more css cls.   
+Access the controls and activate the advanced mode, then click on the style column.
+
+For button control you can set also the icon.
+
+![](.gitbook/assets/image.png)
+
+You can set the properties also on panels
+
+![](.gitbook/assets/image%20%281%29.png)
 
 
 
