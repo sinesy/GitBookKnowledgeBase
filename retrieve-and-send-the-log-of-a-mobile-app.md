@@ -4,7 +4,7 @@ description: (6.0.2 version)
 
 # Retrieve and send the log of a mobile app
 
-## Final result example
+## Example of the final result
 
 ![example of notification made by an app user](.gitbook/assets/image%20%283%29.png)
 
