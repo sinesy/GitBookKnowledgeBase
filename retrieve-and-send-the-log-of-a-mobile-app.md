@@ -4,6 +4,12 @@ description: (6.0.2 version)
 
 # Retrieve and send the log of a mobile app
 
+## Final result example
+
+![example of notification made by an app user](.gitbook/assets/image%20%283%29.png)
+
+![example of automatic report on error](.gitbook/assets/image%20%284%29.png)
+
 ## Retrieve and send the log 
 
 The following code allows you to: 
@@ -17,7 +23,7 @@ The following code allows you to:
 
 This action can be invoked for example when the user presses a "send report" button.
 
-Replace `XXX_SERVER_ACTION_ID` with your server action.
+Replace `XXX_SERVER_ACTION_ID` with your server action and `logDir` whit the bucket folder id.
 
 in this action there are 4 important functions that you can adapt to your purpose:
 
