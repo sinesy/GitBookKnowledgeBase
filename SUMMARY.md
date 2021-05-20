@@ -87,5 +87,6 @@
 * [How to change CSS settings for a grid row](how-to-change-css-settings-for-a-grid-row.md)
 * [Customizing a Tree Panel](customizing-a-tree-panel.md)
 * [How to execute complex queries on Google Datastore](how-to-execute-complex-queries-on-google-datastore.md)
+* [Retrieve and send the log of a mobile app](retrieve-and-send-the-log-of-a-mobile-app.md)
 * [Theme customization](theme-customization.md)
 
