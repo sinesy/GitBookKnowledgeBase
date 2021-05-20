@@ -15,7 +15,17 @@ The following code allows you to:
 
 ### Client side action
 
-This action can be invoked for example when the user presses a "send report" button
+This action can be invoked for example when the user presses a "send report" button.
+
+Replace `XXX_SERVER_ACTION_ID` with your server action.
+
+in this action there are 4 important functions that you can adapt to your purpose:
+
+* saveUnsentCrash 
+* saveDb
+* saveScreenshot
+* saveLog
+* sendChatNotification
 
 ```javascript
 /**
@@ -55,7 +65,7 @@ function sendChatNotification() {
     
     notifParam.note = notifNote;
     
-    executeServerAction(8479, notifParam);
+    executeServerAction(XXX_SERVER_ACTION_ID, notifParam);
 }
 
 
@@ -70,7 +80,7 @@ function showError(){
 }
 
 /**
-* Callback chiamata dopo l'invio del file
+* Callback after file send
 **/
 function sendCallback(responseFromWebService) {
     
@@ -90,7 +100,7 @@ function sendCallback(responseFromWebService) {
 }
 
 /**
- * Salva nel bucket i crash non inviati a chraslytics
+ * Save on bucket crashes not sent to crashlytics
  */
 function saveUnsentCrash(connectionData){
     log("Connection data: " + connectionData);
@@ -125,13 +135,12 @@ function saveUnsentCrash(connectionData){
 }
 
 /**
- * Salva nel bucket il db dell'app
+ * Save on bucket the app db
  */
 function saveDb() {
     
     try {
-        //uso il path fisso!!
-        var dbPath = getDbPath("DBNOSYNC");
+        var dbPath = getDbPath("DBNOSYNC"); //DBNOSYNC | DBCON | DBREADONLY
         
         if (dbPath) {
             var zipPathDb = zipFile(dbPath,"dbnosync.zip");
@@ -154,7 +163,7 @@ function saveDb() {
 }
 
 /**
- * Salva nel bucket lo screenshot
+ * Save on bucket an eventualy user screenshots passed in the window params
  */
 function saveScreenshot() {
     log("[3629] SAVE SCREEN");
@@ -183,7 +192,7 @@ function saveScreenshot() {
 }
 
 /**
- * Salva il file di log
+ * Save on bucket the log file
  */
 function saveLog(){
     log("[3629] NOTE SEGNALAZIONE: " + note);
@@ -238,7 +247,7 @@ asyncFunction("inviaSegnalazione", [],400);
 
 ### Server side action
 
-Replace WEB\_HOOK\_URL with the id of your web hook
+Replace `WEB_HOOK_URL` with the id of your web hook.
 
 ```javascript
 function appendWidget(topLabel,content,contentMultiline,iconUrl) {
@@ -409,7 +418,28 @@ try{
 utils.setReturnValue(JSON.stringify(response,jsonReplacer));
 ```
 
-{% hint style="info" %}
-Once you're strong enough, save the world:
+### 
+
+### Define an incoming webhook <a id="define_an_incoming_webhook"></a>
+
+Official documentation: https://developers.google.com/hangouts/chat/how-tos/webhooks
+
+From the chat room menu:
+
+1. Select _Configure Webhooks_
+
+   ![](https://developers.google.com/hangouts/chat/images/webhook-menu-option.png)
+
+   A dialog appears that lists any incoming webhooks already defined for the room.
+
+   ![](https://developers.google.com/hangouts/chat/images/webhook-new.png)
+
+2. Click on _ADD WEBHOOK_.
+3. Fill in the name field and optionally the avatar URL field.
+4. Click _SAVE_.
+5. Copy and save the webhook URL
+
+{% hint style="success" %}
+Once you're strong enough, save the world.
 {% endhint %}
 
