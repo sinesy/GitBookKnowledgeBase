@@ -428,7 +428,7 @@ utils.setReturnValue(JSON.stringify(response,jsonReplacer));
 
 ### Define an incoming webhook <a id="define_an_incoming_webhook"></a>
 
-Official documentation: https://developers.google.com/hangouts/chat/how-tos/webhooks
+Official documentation: [https://developers.google.com/hangouts/chat/how-tos/webhooks](https://developers.google.com/hangouts/chat/how-tos/webhooks)
 
 From the chat room menu:
 
