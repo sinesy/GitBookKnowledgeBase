@@ -188,9 +188,25 @@ In this way, each time a node is created and the Tomcat service started, Platfor
   * SCHEDULER\__IP\__LOCKED - set to Y
   * MESSAGES\_IP - set to Y
   * MESSAGES\_URL\_SERVER - set either to http://&lt;localIP&gt;/platform or http://&lt;localIP&gt;:8080/platform \(the latter in case the record already exists and it has such a port\)
-* **queueNames** - \(optional\) it contains a list of couples appId + queueName, each couple separated by a comma, related to queue names which must be executed on the current node; this parameter should be set ONLY IF the batch layer is composed of multiple instance groups, where one is related to the main node and the others to additional batch nodes \(NOT main nodes\), used to run only a sub-set of queues, the ones mentioned in this parameter. That means that "queueNames" should be set ONLY for a node which IS NOT the main node. Example: "KEEPIT\|SELLING,KEEPIT\|API\_TRADE"
+* **queueNames** - \(optional\) it contains a list of couples appId + queueName, each couple separated by a comma, related to queue names which must be executed on the current node; this parameter should be set ONLY IF the batch layer is composed of multiple instance groups, where one is related to the main node and the others to additional batch nodes \(NOT main nodes\), used to run only a sub-set of queues, the ones mentioned in this parameter. That means that "queueNames" should be set ONLY for a node which IS NOT the main node. 
 
+**Example**
 
+```text
+queueName = KEEPIT|SELLING,KEEPIT|API_TRADE
+```
+
+For the application KEEPIT, two queues will be managed by the current node: SELLING and API\_TRADE.
+
+Consequently Platform would:
+
+* delete all already existing records in CON104\_QUEUE\_NODES table \(additional nodes for queues\) having the EXECUTING\_NODE field set to the current node local IP
+* for each queue defined within the "queueNames" parameter, insert/update records in CON104\_QUEUE\_NODES, filling 
+  * EXECUTING\_NODE with the current node local IP
+  * QUEUE\_NAME with the specified queue name
+  * APPLICATION\_ID with the specified app id
+
+Finally, the current Platform node will manage only these two queues.
 
 
 
