@@ -158,5 +158,43 @@ Independently of the cluster setting you have, when publishing an application \(
 
 If you do not follow these steps, you could have an inconsistent state in any of these nodes.
 
+**It is also recommended to add the following setting to the java process defined within the Tomcat service file**, in order to disable the automatic database upgrade each time the Tomcat service is started:
+
+```text
+-Dupgradedb="false"
+```
+
+
+
+### Automatic main node setting in Google Cloud Platform
+
+In case of a cluster of nodes in Google Cloud Platform, you can define a set of instance groups, one for each application domain: online, API, batch.
+
+The batch layer should have its dedicated instance group, composed of ONE ONLY node, named "main node". Since the main node can be re-created over time by the load balancer managing the batch instance group, the node IP can also change over time. It is important to update CON44\__COMMON\__PARAMS records related to the main node, i.e. the ones related to the queue manager, the scheduler and the messaging system.
+
+You can let Platform  update automatically these settings, if you add the following setting to java process defined with the Tomcat service file:
+
+```text
+-Dupdateparams=true
+```
+
+In this way, each time a node is created and the Tomcat service started, Platform would enquiry GCP web service layer in order to get up to 3 "custom parameters" defined at instance group level:
+
+* **env** - \(optional\) this is the name of the running environment; if found, Platform will override the default value set in the web.xml file and use it internally. You can use the server-side javascript function utils.getEnvironment\(\) to get this value
+* **batch** - \(optional\) this parameter can be filled with Y or N; if set to Y, Platform will recognize the current VM as the main node and update CON44\__COMMON\_PARAMS records related to the parameters:_ 
+  * _QUEUE\__IP - set with the VM local IP
+  * QUEUE\__IP\__LOCKED - set to Y
+  * _SCHEDULER\__IP - set with the VM local IP
+  * SCHEDULER\__IP\__LOCKED - set to Y
+  * MESSAGES\_IP - set to Y
+  * MESSAGES\_URL\_SERVER - set either to http://&lt;localIP&gt;/platform or http://&lt;localIP&gt;:8080/platform \(the latter in case the record already exists and it has such a port\)
+* **queueNames** - \(optional\) it contains a list of couples appId + queueName, each couple separated by a comma, related to queue names which must be executed on the current node; this parameter should be set ONLY IF the batch layer is composed of multiple instance groups, where one is related to the main node and the others to additional batch nodes \(NOT main nodes\), used to run only a sub-set of queues, the ones mentioned in this parameter. That means that "queueNames" should be set ONLY for a node which IS NOT the main node. Example: "KEEPIT\|SELLING,KEEPIT\|API\_TRADE"
+
+
+
+
+
+
+
 
 
