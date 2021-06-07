@@ -180,7 +180,7 @@ You can let Platform  update automatically these settings, if you add the follow
 
 In this way, each time a node is created and the Tomcat service started, Platform would enquiry GCP web service layer in order to get up to 3 "custom parameters" defined at instance group level:
 
-* **env** - \(optional\) this is the name of the running environment; if found, Platform will override the default value set in the web.xml file and use it internally. You can use the server-side javascript function utils.getEnvironment\(\) to get this value
+* **env** - \(optional\) this is the name of the running environment; if found, Platform will override the default value set in the web.xml file and use it internally. You can use the server-side javascript function **utils.getEnvironment\(\)** to get this value
 * **batch** - \(optional\) this parameter can be filled with Y or N; if set to Y, Platform will recognize the current VM as the main node and update CON44\__COMMON\_PARAMS records related to the parameters:_ 
   * _QUEUE\__IP - set with the VM local IP
   * QUEUE\__IP\__LOCKED - set to Y
