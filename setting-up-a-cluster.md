@@ -208,6 +208,45 @@ Consequently Platform would:
 
 Finally, the current Platform node will manage only these two queues.
 
+### Distributing the queue content to multiple threads
+
+A queue is used to limit the server resource consumption, in terms of CPU and memory, so it is always a good practice to enqueue the elaboration to a queue, so that there is always a controlled amount of resources consumed at any time.
+
+However, there can be scenarios where a large amonunt of elements has been enqueued and more performance is required.
+
+There are several approaches to the performance problem:
+
+* the worst solution is the one where multiple queues are used instead of one: in this way, elements can be processed in parallel and performance is increased but it has also been violated the reason why queues should be used: to limit the resource consumption; a wild use of this approach can lead to an unlimited number of queues created or to a too high number of queues used to concurrently execute elements
+* the best solution is the one where the bottlenecks are recognized in the business logic and the application is optimized: performance is reached without increasing the server resources or by consuming more of them but conversely, a lower amount of resources is required
+
+In the middle between the two approaches, there is the possibility to execute a upper bound limited amount fo thread per queue. The max number of threads per queue is not unlimited and not directly connected to application dimensions which could increase overtime \(e.g. company ids\).
+
+Platform allows define up to 4 threads per queue, with a default behavior of 1 thread per queue \(a real queue\).
+
+**Do not abuse this feature, do not activate this feature for all queues, do not define hundreds of threads in total,** otherwise the server resources will not be enough to manage such a scenario and the service would collapse.
+
+In order to activate this feature, you have first to define a main node \(through the global parameters, section QUEUE\). Next, you have to define which queues are managed by the main node and optionally by other additional batch nodes. It is not essential to define additional nodes: but you have always to define queue names in the **Service -&gt; Queue Settings** functionality of the AppDesigner:
+
+![](.gitbook/assets/schermata-2021-06-07-alle-12.28.00.png)
+
+Once done that click on the "..." button on the right of each row, in order to open the additional settings for a specific queue.
+
+This window contains always 4 rows, one for each thread, where the first one is the "default thread", i.e. the one where all elements in the selected queue will be processed. You cannot change in any way the first row.
+
+Optionally, you can fill in the thread number 2, 3 or 4, by settings a list of "payloads": a specific element will be processed in the thread x only if the element payoad is contained in that list.
+
+Let's suppose that we define the thread payloads as a list of company ids, where there is a company id which generates a very large amount of elements in queue: it is a good idea to dedicate a thread only for it \(company id 00000\).
+
+![](.gitbook/assets/schermata-2021-06-07-alle-12.28.37.png)
+
+There can be other 3 company ids \(00001,0002,0003\) which can 
+
+
+
+
+
+
+
 
 
 
