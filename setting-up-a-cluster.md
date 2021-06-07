@@ -239,9 +239,11 @@ Let's suppose that we define the thread payloads as a list of company ids, where
 
 ![](.gitbook/assets/schermata-2021-06-07-alle-12.28.37.png)
 
-There can be other 3 company ids \(00001,0002,0003\) which can 
+There can be other 3 company ids \(00001,0002,0003\) which require a faster response in the elaboration, so a third thread is dedicated to them. 
 
+All other elements, having a payload not matching these 4 company ids will be managed by the default thread \(first thread\).
 
+In order to make these settings working, it is also needed to pass forward to the element such a payload:  when enqueuing an element in the queue, use the **utils.enqueueActionWithNote\(\)** function and use the last argument \(note\) to pass forward the payload. The queue system will match this payload value for the element with the ones specified in the Queue Settings functionality and decide for each element in which thread it will processed.
 
 
 
