@@ -34,6 +34,24 @@ You can include more settings for a filter panel using the "Additional Settings"
 
 See [https://docs.sencha.com/extjs/3.4.0/\#!/api/Ext.form.FormPanel](https://docs.sencha.com/extjs/3.4.0/#!/api/Ext.form.FormPanel) to get a whole description of available settings.
 
+
+
+### Adding a placeholder inside an input control
+
+It is possible to set an initial tooltip text within the control, which disappears automatically when typing a text in it. In order to do it add to Additional Settings property for a control named **emptyText.**
+
+Example:
+
+```text
+emptyText: "abc"
+```
+
+
+
+
+
+
+
 ## Customizing a Grid Panel
 
 ### A grid having rows with different heights
