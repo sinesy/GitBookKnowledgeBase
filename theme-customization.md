@@ -63,6 +63,86 @@ You can include more settings for a filter panel using the "Additional Settings"
 
 See [https://docs.sencha.com/extjs/3.4.0/\#!/api/Ext.grid.GridPanel](https://docs.sencha.com/extjs/3.4.0/#!/api/Ext.grid.GridPanel) to get a whole description of available settings.
 
+
+
+### Customizing column headers
+
+The column header area can contain:
+
+* the column header text
+* optionally the ascending/descending icon to show a data ordering \(the column header is a three-state clickable button: no sort, ascending sort, descending sort\)
+* optionally the filter icon, used to emphasize the application of a filter condition on such a column; default behavior: visible on the left-top side, beside the text
+* optionally the "no filter applied" icon, used to emphasize the application of a filter condition on such a column; default behavior: NOT visible; if set to visible, it would be on the left-top side, beside the text and as an alternative to the filter icon
+
+It is possible to customize the column header content through a series of CSS classes:
+
+**Column header height**
+
+class name: **x-grid3-hd-inner**
+
+Example: how to increase header height
+
+```text
+.x-grid3-hd-inner {
+    height: 30;
+}
+```
+
+**Filter condition applied icon**
+
+class name: **filter\_on**
+
+Example: position the filter icon on the bottom-left position
+
+```text
+.filter_on {
+    position: absolute;
+    bottom: 10;
+}
+```
+
+Example: redefining the filter icon
+
+```text
+.filter_on{
+	width: 12;
+	height: 12;
+	background: url(../images/filter_on.gif) no-repeat;
+}
+```
+
+**NO filter condition applied icon**
+
+class name: **filter\_off**
+
+Example: position the NO filter icon on the bottom-left position
+
+```text
+.filter_off {
+    position: absolute;
+    bottom: 10;
+}
+```
+
+Example: redefining the NO filter icon
+
+```text
+.filter_off{
+	display: initial;
+	width: 12;
+	height: 12;
+	background: url(../../extjsutils/images/filter_off.gif) no-repeat;
+}
+```
+
+\*\*\*\*
+
+\*\*\*\*
+
+
+
+
+
 ## Customizing a Form Panel
 
 ### Adding additional graphical settings to a form panel
