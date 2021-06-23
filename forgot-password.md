@@ -7,13 +7,13 @@ When pressing on such a link, a window is prompted in order to ask the user to s
 This is the workflow of the Forgot Password process:
 
 * user clicks on Forgot Password 
-  * user types his email address 
-    * an email is sent to that address, containing a link to click on
-      * the link opens the Login Window again, with the Change Password window
-        * the user specifies a new password twice
-          * the user can access the web application.
+* user types his email address 
+* an email is sent to that address, containing a link to click on
+* the link opens the Login Window again, with the Change Password window
+* the user specifies a new password twice
+* the user can access the web application.
 
-In order to enable the Forgot password feature, these conditions must be fullfilled:
+In order to enable the Forgot password feature, these conditions must be fulfilled:
 
 * forgotPwd has NOT been included among the "hidden fields" neither in the application nor in the global parameters \(HIDDEN\_ITEM\_IDS\)
 * the "Email Host" application/global parameter \(MAIL\_SMTP\_HOST\) has been filled
