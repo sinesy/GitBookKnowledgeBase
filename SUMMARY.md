@@ -57,6 +57,7 @@
 * [Error 'smtpHost' is empty](error-smtphost-is-empty.md)
 * [Linking two windows](linking-two-windows.md)
 * [How to open manually a window from another window](how-to-open-manually-a-window-from-another-window.md)
+* [How to open manually a popup window](how-to-open-manually-a-popup-window.md)
 * [How to hide a panel in a window dinamically](how-to-hide-a-panel-in-a-window-dinamically.md)
 * [How to manage folder panels](how-to-manage-folder-panels.md)
 * [How to manage card panels](how-to-manage-card-panels.md)
