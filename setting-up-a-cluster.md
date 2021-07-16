@@ -147,6 +147,10 @@ In case of a cluster having a main node \(for scheduled processed/queues\), that
 
 You have always to set both, otherwise you could have loops with the fixed node calling itself.
 
+Optionally, you can **also** check the setting "**Check messages on db**" in order to reduce the amount of requests sent from all other nodes to the batch main node: messages availability is carried out by reading periodically the messages table. In this way the application is more scalable but messages will not be "real time": up to 45 seconds are needed before being aware of new messages.
+
+
+
 ### Important notes when updating an application
 
 Independently of the cluster setting you have, when publishing an application \(metadata\) it is important to be sure all nodes in cluster have an updated state. Consequently, it is essential to follow these simple steps:
