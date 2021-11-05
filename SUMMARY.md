@@ -91,4 +91,4 @@
 * [Theme customization](theme-customization.md)
 * [Retrieve and send the log of a mobile app](retrieve-and-send-the-log-of-a-mobile-app.md)
 * [Import Roles and Users](import-roles-and-users.md)
-
+* [How to synchronize multiple Form panels in the same window](how-to-synchronize-multiple-form-panels-in-the-same-window.md)
