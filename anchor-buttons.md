@@ -38,7 +38,7 @@ When the anchor button is selected, the following default CSS class is applied:
 
 ```css
 .x-anchor-btn-selected {
-	background: var(--accent-color) !important;
+	background: #50A3ED !important;
 }
 
 .x-anchor-btn-selected button {
