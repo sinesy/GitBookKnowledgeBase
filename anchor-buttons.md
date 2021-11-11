@@ -33,3 +33,15 @@ You can customize the button action but you can't change the references of the l
 If necessary you can selected and javascript action to execute when the scroll activate the anchor button.
 
 ![](<.gitbook/assets/image (17).png>)
+
+When the anchor button is selected, the following default class is applied
+
+```css
+.x-anchor-btn-selected {
+	background: var(--accent-color) !important;
+}
+
+.x-anchor-btn-selected button {
+	color: white !important;
+}
+```
