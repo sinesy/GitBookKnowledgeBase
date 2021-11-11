@@ -1,6 +1,6 @@
 # formatting a column
 
-In case a **numeric column needs to be formatted in a specific way,** it is possible to use the “data format” setting, available in the “columns” folder of the grid panel definition window.
+In case a **numeric column needs to be formatted in a specific way, **it is possible to use the “data format” setting, available in the “columns” folder of the grid panel definition window.
 
 [![format](http://4wsplatform.org/wp-content/uploads/2015/12/format-1024x241.jpeg)](http://4wsplatform.org/wp-content/uploads/2015/12/format.jpeg)
 
@@ -8,7 +8,7 @@ The example reported above shows how to format a numeric column where both the d
 
 In case of a simple **number formatted with a currency value**, the easiest way to do that with 2 decimal digits is to set the “Currency symbol”: in that case, the number will be formatted as: symbol **0,000.00**
 
-In case a **cell must be colored/reformatted according to a specific logic**, it is possible to set font, background/foreground colors by working on the “**Renderer**” property available in the “Advanced mode” \(press the Advanced button on the grid’s toolbar\).
+In case a **cell must be colored/reformatted according to a specific logic**, it is possible to set font, background/foreground colors by working on the “**Renderer**” property available in the “Advanced mode” (press the Advanced button on the grid’s toolbar).
 
 In this cell you can define a series of javascript instructions.
 
@@ -46,4 +46,3 @@ if (value == 'whatever') {
 // if needed: 
 // return anothervalue;
 ```
-
