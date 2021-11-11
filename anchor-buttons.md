@@ -28,4 +28,8 @@ if you have a large window with many panels and you want to create links to see 
 
 You can customize the button action but you can't change the references of the link panel and the scrollable panel. This information must be the same as that of the style and refer to the panels present in the window. If you want change this references I suggest you to cancel the anchor and recreate it.
 
+![](<.gitbook/assets/image (13).png>)
+
 If necessary you can selected and javascript action to execute when the scroll activate the anchor button.
+
+![](<.gitbook/assets/image (17).png>)
