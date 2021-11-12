@@ -93,3 +93,4 @@
 * [Import Roles and Users](import-roles-and-users.md)
 * [How to synchronize multiple Form panels in the same window](how-to-synchronize-multiple-form-panels-in-the-same-window.md)
 * [Anchor buttons](anchor-buttons.md)
+* [Properties of subpanels](properties-of-subpanels.md)
