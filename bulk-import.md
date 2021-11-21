@@ -28,11 +28,11 @@ The steps reported above can be executed using a few utility methods:
 utils.readCsvAndLoadTable(settings); 
 ```
 
-where settings is a javascript object containing the following attributes:
-
-Example of x\_csv border table:
+Example of x\_csv border table and javascript:
 
 ```
+TABLE:
+
 create table BT01_ITEMS_CSV( 
  COMPANY_ID CHAR(5) NOT NULL, 
  ROW_ID NUMERIC(12) NOT NULL, 
@@ -41,6 +41,29 @@ create table BT01_ITEMS_CSV(
  CONTAINS_ERRORS CHAR(1), 
  PRIMARY KEY(COMPANY_ID,ROW_ID) 
 );
+
+JAVASCRIPT:
+
+var settings = {
+    srcDirId: 9,
+    srcFileName: "art.csv",
+    charSet:"UTF-8",
+    idAsNum:"ROW_ID",
+    idAsUuid: null,
+    additionalFields: {
+        COMPANY_ID: "00000",
+        ERRORS: "",
+        CONTAINS_ERRORS: "N"
+    },
+    headers: false,
+    commitSize: 10000,
+    clobFieldName: "ROW_CONTENT",
+    datasourceId: null,
+    tableName: "BT01_ITEMS_CSV"
+};   
+utils.readCsvAndLoadTable(settings
+// Time spent to load 1M raws from a CSV file: 93474ms
+
 ```
 
 ****
@@ -51,46 +74,128 @@ create table BT01_ITEMS_CSV(
 utils.mapClobFieldToTable(settings);
 ```
 
-where settings is a javascript object containing the following attributes:
+where settings is a javascript object containing the following attributes
 
+| Attribute name      | Description                                                                                                                             |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| srcDatasourceId     | datasource id used to access the first** **border table (can be null: default schema)                                                   |
+| srcTableName        | x\_csv first border table name (e.g. BT01\_ITEMS\_CSV)                                                                                  |
+| destDatasourceId    | datasource id used to access the second** **border table (can be null: default schema)                                                  |
+| destTableName       | x\_data second border table name (e.g. BT02\_ITEMS\_DATTA)                                                                              |
+| clobFieldName       | optional; in case of a table where the the field name in the border table, having CLOB type and used to store a CSV raw                 |
+| separator           | CSV separator: ; or .                                                                                                                   |
+| errorFieldName      | field name in the FIRST border table where saving validation errors fired when loading the second border table                          |
+| commitSize          | in case of a very large result set, commit is essential after a block of data written; e.g. 1000                                        |
+| containsErrorsField | field name in the FIRST border table used as flag Y/N, set to Y in case of validation errors fired when loading the second border table |
+| asIsFields          | javascript object containing the mapping between fields in the first border table and the second one                                    |
+| defaultFields       | javascript object containing fields+values to fill in the second border table                                                           |
+| mappingFields       | javascript Array containing javascript objects, each related to a mapping from the CLOB field and fields in the second border table     |
+| commitSize          | block of records to save in the second border table after that a commit is performed                                                    |
 
-
-
-
-: null, : "BT01\_ITEMS\_CSV", : null, : "BT02\_ITEMS\_DATA", : "ROW\_CONTENT", : ";", errorFieldName: "ERRORS", containsErrorsField: "CONTAINS\_ERRORS",
+Example of the second border table and javascript:
 
 ```
-asIsFields: {
-  COMPANY_ID: "COMPANY_ID",
-  ROW_ID: "ROW_ID",
-},
-defaultFields: {
-  ERRORS: "",
-  CONTAINS_ERRORS: "N",
-},
+TABLE:
 
-mappedFields: [
-{
-  fieldName: "ITEM_CODE",
-  fieldType: "TEXT",
-  fieldLength: 20,
-  mandatory:   true,
-},
+create table BT02_ITEMS_DATA(
+ COMPANY_ID CHAR(5) NOT NULL,
+ ROW_ID NUMERIC(12) NOT NULL,
+ ITEM_CODE VARCHAR(20),
+ DESCRIPTION VARCHAR(255),
+ BARCODE VARCHAR(255),
+ VAT_CODE VARCHAR(20),
+ FK_ART01 NUMERIC(12),
+ FK_ART02 NUMERIC(12),
+ FK_ART03 NUMERIC(12),
+ PRICE DECIMAL(18,5),
+ SELL_NR NUMERIC(18),
+ CREATE_DATE DATE,
+ LAST_UPDATE DATETIME,
+ ERRORS VARCHAR(4000),
+ CONTAINS_ERRORS CHAR(1),
+ PRIMARY KEY(COMPANY_ID,ROW_ID)
+);
+
+JAVASCRIPT:
+
+var settings = {
+    srcDatasourceId: null,
+    srcTableName: "BT01_ITEMS_CSV",
+    destDatasourceId: null,
+    destTableName: "BT02_ITEMS_DATA",
+    clobFieldName: "ROW_CONTENT",
+    separator: ";",
+    errorFieldName: "ERRORS",
+    containsErrorsField: "CONTAINS_ERRORS",
+
+    asIsFields: {
+      COMPANY_ID: "COMPANY_ID",
+      ROW_ID: "ROW_ID",
+    },
+    defaultFields: {
+      ERRORS: "",
+      CONTAINS_ERRORS: "N",
+    },
+    
+    mappedFields: [
+    {
+      fieldName: "ITEM_CODE",
+      fieldType: "TEXT",
+      fieldLength: 20,
+      mandatory:   true,
+    },
+    {
+      fieldName: "DESCRIPTION",
+      fieldType: "TEXT",
+      fieldLength: 255,
+      mandatory:   true,
+    },
+    {
+      fieldName: "BARCODE",
+      fieldType: "TEXT",
+      fieldLength: 255,
+      mandatory:   true,
+    },
+    {
+      fieldName: "VAT_CODE",
+      fieldType: "TEXT",
+      fieldLength: 20,
+      mandatory: Boolean.FALSE,
+    },
+    {
+      fieldName: "PRICE",
+      fieldType: "DEC",
+      fieldInt: 8,
+      fieldDec: 2,
+      decSeparator: ".",
+      mandatory:   true,
+    },
+    {
+      fieldName: "SELL_NR",
+      fieldType: "INT",
+      fieldInt: 8,
+      mandatory: Boolean.FALSE,
+    },
+    {
+      fieldName: "CREATE_DATE",
+      fieldType: "DATE",
+      dateFormat: "yyyy-MM-dd",
+      mandatory: Boolean.FALSE,
+    },
+    {
+      fieldName: "LAST_UPDATE",
+      fieldType: "DATETIME",
+      dateFormat: "yyyy-MM-dd HH:mm",
+      mandatory: Boolean.FALSE,
+    }
+    ],
+    commitSize: 10000
+};
+
+utils.mapClobFieldToTable(settings
+// Time spent to map 1M raws of a CSV content stored in a CLOB field of a table to another table: 112075ms
+
 ```
-
-| Attribute name   | Description                                                                                                             |
-| ---------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| srcDatasourceId  | datasource id used to access the first** **border table (can be null: default schema)                                   |
-| srcTableName     | x\_csv first border table name (e.g. BT01\_ITEMS\_CSV)                                                                  |
-| destDatasourceId | datasource id used to access the second** **border table (can be null: default schema)                                  |
-| destTableName    | x\_data second border table name (e.g. BT02\_ITEMS\_DATTA)                                                              |
-| clobFieldName    | optional; in case of a table where the the field name in the border table, having CLOB type and used to store a CSV raw |
-| separator        | CSV separator: ; or .                                                                                                   |
-| headers          | true if the CSV file contains a header list as the first raw                                                            |
-| commitSize       | in case of a very large result set, commit is essential after a block of data written; e.g. 1000                        |
-| clobFieldName    | the field name in the border table, having CLOB type and used to store a CSV raw                                        |
-| datasourceId     | datasource id used to access the border table (can be null: default schema)                                             |
-| tableName        |                                                                                                                         |
 
 
 
@@ -100,7 +205,66 @@ mappedFields: [
 utils.validateCode(settings); // fill in FKs fields in the second border table, by validating CODEs in destination tables; this method must be called for each CODE field
 ```
 
+Example of destination tables containing records to validate and javascript:
 
+```
+TABLES:
+
+create table ART02_BARCODES(
+ PROG_ID NUMERIC(12) NOT NULL,
+ COMPANY_ID CHAR(5) NOT NULL,
+ BARCODE VARCHAR(255),
+ PRIMARY KEY(PROG_ID)
+) ;
+
+create table ART03_VATS(
+ PROG_ID NUMERIC(12) NOT NULL,
+ COMPANY_ID CHAR(5) NOT NULL,
+ VAT_CODE VARCHAR(20),
+ VAT  NUMERIC(5),
+ PRIMARY KEY(PROG_ID)
+) ;
+
+JAVASCRIPT:
+
+var settings = {
+    srcDatasourceId: null,
+    fromTable: "BT02_ITEMS_data",
+    fromTableFilter: "company_id='00000'",
+    fromRowId: "ROW_ID",
+    destDatasourceId: null,
+    toTable: "ART03_VATS",
+    toTableFilter: "company_id='00000'",
+    errorFieldName: "ERRORS",
+    containsErrorsField: "CONTAINS_ERRORS",
+    fromFieldCode: "VAT_CODE",
+    toFieldCode: "VAT_CODE",
+    fromFK: "fk_art03",
+    toFK: "prog_id",
+    commitSize: 10000
+};    
+utils.validateCode(settings // 2112ms + 20709ms
+// Time spent to decode all records for field VAT_CODE in table BT02_ITEMS_data: 21586ms
+
+var settings = {   
+    srcDatasourceId: null,
+    fromTable: "BT02_ITEMS_data",
+    fromTableFilter: "company_id='00000'",
+    fromRowId: "ROW_ID",
+    destDatasourceId: null,
+    toTable: "ART02_BARCODES",
+    toTableFilter: "company_id='00000'",
+    errorFieldName: "ERRORS",
+    containsErrorsField: "CONTAINS_ERRORS",
+    fromFieldCode: "BARCODE",
+    toFieldCode: "BARCODE",
+    fromFK: "fk_art02",
+    toFK: "prog_id",
+    commitSize: 10000
+};
+utils.validateCode(settings
+// Time spent to decode all records for field BARCODE in table BT02_ITEMS_data: 31563ms
+```
 
 
 
@@ -110,5 +274,113 @@ utils.validateCode(settings); // fill in FKs fields in the second border table, 
 utils.copyDataFromBorderTable(settings); // load a destination table from the seocnd border table; this method must be called for each destination table
 ```
 
+Example of the destination table to fill in and javascript:
+
+```
+TABLES:
+
+create table INI22_COUNTERS(
+ TABLE_NAME VARCHAR(20) NOT NULL,
+ COLUMN_NAME VARCHAR(20) NOT NULL,
+ CURRENT_VALUE NUMERIC(12),
+ INCREMENT_VALUE  NUMERIC(12),
+ PRIMARY KEY(TABLE_NAME,COLUMN_NAME)
+);
+insert into INI22_COUNTERS(TABLE_NAME,COLUMN_NAME,CURRENT_VALUE,INCREMENT_VALUE) VALUES('ART01_ITEMS','PROG_ID',1,1);
+
+create table ART01_ITEMS(
+ PROG_ID NUMERIC(12) NOT NULL,
+ COMPANY_ID CHAR(5) NOT NULL,
+ ITEM_CODE VARCHAR(20),
+ DESCRIPTION VARCHAR(255),
+ FK_ART02 NUMERIC(12),
+ FK_ART03 NUMERIC(12),
+ CREATE_DATE DATE,
+ LAST_UPDATE DATETIME,
+ PRIMARY KEY(PROG_ID)
+);
+
+JAVASCRIPT:
+
+var settings = {  
+    srcDatasourceId: null,
+    fromTable: "BT02_ITEMS_data",
+    fromTableFilter: "company_id='00000'",
+    //fromFK: "FK_ART01"
+    //errorFieldName: "ERRORS"
+    //containsErrorsField: "CONTAINS_ERRORS"
+    operation: "INSERT",
+    destDatasourceId: null,
+    toTable: "ART01_ITEMS",
+    //toTableFilter: "PROG_ID=?"
+    idAsNum: "PROG_ID",
+    progIdValueField: "CURRENT_VALUE",
+    progIdTable: "INI22_COUNTERS",
+    progIdIncField: "INCREMENT_VALUE",
+    progIdWhere: "TABLE_NAME='ART01_ITEMS' AND COLUMN_NAME='PROG_ID'",
+    commitSize: 10000,
+    defaultFields: {},
+    defaultInLineFields: {},
+    mappingFields: {
+      COMPANY_ID: "COMPANY_ID",
+      ITEM_CODE: "ITEM_CODE",
+      DESCRIPTION: "DESCRIPTION",
+      CREATE_DATE: "CREATE_DATE",
+      LAST_UPDATE: "LAST_UPDATE",
+      FK_ART02: "FK_ART02",
+      FK_ART03: "FK_ART03"
+    }
+};
+utils.copyDataFromBorderTable(settings);
+// Time spent to copy data from table BT02_ITEMS_data to table ART01_ITEMS: 107694ms
+
+```
+
+Example of javascript to use to update data from the second border table to the destination table: PROG\_ID must be first reckoned and then used to update data.
+
+```
+var settings = { 
+     fromTable: "BT02_ITEMS_data",
+     fromTableFilter: "company_id='00000'",
+     fromRowId: "ROW_ID",
+     toTable: "ART01_ITEMS",
+     toTableFilter: "company_id='00000'",
+    //: errorFieldName: "ERRORS");
+    //: containsErrorsField: "CONTAINS_ERRORS");
+     fromFieldCode: "ITEM_CODE",
+     toFieldCode: "ITEM_CODE",
+     fromFK: "fk_art01",
+     toFK: "prog_id",
+     commitSize: 10000
+};
+utils.validateCode(settings); 
+// Time spent to decode all records for field ITEM_CODE in table BT02_ITEMS_data: 18810ms
 
 
+var settings = {
+    fromTable: "BT02_ITEMS_data",
+    fromTableFilter: "company_id='00000'",
+    fromFK: "FK_ART01",
+    //errorFieldName: "ERRORS");
+    //containsErrorsField: "CONTAINS_ERRORS");
+    operation: "UPDATE",
+    toTable: "ART01_ITEMS",
+    toTableFilter: "PROG_ID=?",
+    commitSize: 10000,
+    
+    defaultFields: {},
+    defaultInLineFields: {},
+    mappingFields: {
+        COMPANY_ID: "COMPANY_ID",
+        ITEM_CODE: "ITEM_CODE",
+        DESCRIPTION: "DESCRIPTION",
+        CREATE_DATE: "CREATE_DATE",
+        LAST_UPDATE: "LAST_UPDATE",
+        FK_ART02: "FK_ART02",
+        FK_ART03: "FK_ART03"
+    }
+};
+utils.copyDataFromBorderTable(settings); 
+// Time spent to copy data from table BT02_ITEMS_data to table ART01_ITEMS: 130631ms
+
+```
