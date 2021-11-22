@@ -20,6 +20,8 @@ The best way to manage all these issues is by splitting them into a sequence of 
 3. **validating data in terms of foreign keys, by using destination tables to check out values (FKs)** - destination tables are needed to checkout a CODE and get the PK (e.g. PROG\_ID); the second border table must contain not only CODE fields but also the FK (PROG\_ID). In order to speed up this process, a limited amount of UPDATES must be carried out.
 4. **loading data from the border table to destination tables** - the second border table contains all data required to fill in any destination table: only INSERT or UPDATE operation are now needed, except for the calculation of the PK for a destination table, in case this is based on an UUID or a counter (reckoned through a counter table). In order to speed up the calculation of counters, a unique UPDATE must be carried out: in this way, a lock is performed only once and one only update operation is performed.
 
+![](<.gitbook/assets/Schermata 2021-11-22 alle 10.52.46.png>)
+
 The steps reported above can be executed using a few utility methods:
 
 **1.loading a CSV file to a border table **"**x\_**_**csv**"_
