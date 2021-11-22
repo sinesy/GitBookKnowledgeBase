@@ -223,7 +223,24 @@ utils.mapClobFieldToTable(settings
 utils.validateCode(settings); // fill in FKs fields in the second border table, by validating CODEs in destination tables; this method must be called for each CODE field
 ```
 
-Example of destination tables containing records to validate and javascript:
+where settings is a javascript object containing the following attributes
+
+| Attribute name      | Description                                                                                                                                  |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| srcDatasourceId     | datasource id used to access the second** **border table (can be null: default schema)                                                       |
+| fromTable           | x\_data second border table name (e.g. BT02\_ITEMS\_DATA)                                                                                    |
+| fromTableFilter     | SQL filter (to add to WHERE clause) to filter input data (e.g. COMPANY='00000')                                                              |
+| fromRowId           | field name in the border table containing the numeric ID and used to update a single record in the border table in case of validation errors |
+| fromFieldCode       | field name in the border table containing the code to validate in the application table                                                      |
+| fromFK              | field name where hosting the PK coming form the application table just validated by code (e.g. FK\_ART02)                                    |
+| destDatasourceId    | datasource id used to access the ** **application table containing data to check out (can be null: default schema)                           |
+| toTable             | application table name (e.g. ART02\_VATS)                                                                                                    |
+| toTableFilter       | SQL filter (to add to WHERE clause) to filter the application table data (e.g. COMPANY='00000')                                              |
+| toFieldCode         | field name in the application table, containing the code to check out, in order to validate  the one in the border table                     |
+| toFK                | field name in the application table representing the PK to copy to the corresponding field in the border table (fromFK)                      |
+| errorFieldName      | field name in the FIRST border table where saving validation errors fired when loading the second border table                               |
+| commitSize          | in case of a very large result set, commit is essential after a block of data written; e.g. 1000                                             |
+| containsErrorsField | field name in the FIRST border table used as flag Y/N, set to Y in case of validation errors fired when loading the second border table      |
 
 ```
 TABLES:
