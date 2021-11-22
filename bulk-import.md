@@ -30,6 +30,22 @@ The steps reported above can be executed using a few utility methods:
 utils.readCsvAndLoadTable(settings); 
 ```
 
+where settings is a javascript object containing the following attributes
+
+| Attribute name   | Description                                                                                                                                                                            |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| srcDirId         | directory id where the CSV file is located                                                                                                                                             |
+| srcFileName      | CSV file name to read                                                                                                                                                                  |
+| charSet          | char set used to save the CSV file (if not specified, it is assumed it is "UTF-8")                                                                                                     |
+| idAsNum          | optional field name (having numeric type) which must be created in the border table x\_csv and used to host the numeric PK, generated automatically by Platform when importing the CSV |
+| idAsUuid         | optional field name (having string type) which must be created in the border table x\_csv and used to host a text UUID PK, generated automatically by Platform when importing the CSV  |
+| additionalFields | javascript object containing additional fields included in the border table, which must be filled in and not coming from the CSV file (e.g. COMPANY\_ID)                               |
+| headers          | flag true/false indicating whether the CSV file has a first row with the headers (read data starts from the second row)                                                                |
+| commitSize       | in case of a very large result set, commit is essential after a block of data written; e.g. 1000                                                                                       |
+| clobFieldName    | a CLOB type field name included in  the border table x\_csv which is used to host the whole row                                                                                        |
+| datasourceId     | optional datasource id (can be set to null to access the default schema) used to refer the border table                                                                                |
+| tableName        | border table name                                                                                                                                                                      |
+
 Example of x\_csv border table and javascript:
 
 ```
