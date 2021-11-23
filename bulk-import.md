@@ -234,7 +234,21 @@ utils.mapClobFieldToTable(settings);
 
 ```
 
+After invoking the **mapClobFieldToTable** function, the second border table will be filled in with all valid rows coming from the first border table. All invalid records (i.e. not passing the validation checkings described above) are not written in the second border table and the validation error is reported in the "errorFieldName" field defined in the first table and the "containsErrorsField" field in the same table is also set to "Y", to quickly identify the presence of an error for a specific row.
 
+By an large, multiple validation errors could be fired for the same record (e.g a mandatory constraint for field A and a too long field for the field B of the same record). The "errorFieldName" field contains all errors founds. This field contains a JSON array list containing a list of objects, each one having the following structure:
+
+```
+{
+  fieldName: "...", // the field name violating the validation
+  errorType: "...", // the validation error code; it can be: "CANNOT BE EMPTY","INVALID TYPE",
+"INVALID LENGTH","INVALID DATA","DUPLICATED KEY
+  errorMessage: "...", // a long error message explaining the reason of the validation error (in english)
+  data: "..." // the field value violating the validation checking
+}
+```
+
+&#x20;
 
 **3. validating data in terms of foreign keys, by using destination tables to check out values (FKs)**
 
