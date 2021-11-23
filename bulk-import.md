@@ -41,6 +41,7 @@ where settings is a javascript object containing the following attributes
 | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | srcDirId         | directory id where the CSV file is located                                                                                                                                             |
 | srcFileName      | CSV file name to read                                                                                                                                                                  |
+| srcFilter        | optional SQL filter, used to filter input data to read from the first border table                                                                                                     |
 | charSet          | char set used to save the CSV file (if not specified, it is assumed it is "UTF-8")                                                                                                     |
 | idAsNum          | optional field name (having numeric type) which must be created in the border table x\_csv and used to host the numeric PK, generated automatically by Platform when importing the CSV |
 | idAsUuid         | optional field name (having string type) which must be created in the border table x\_csv and used to host a text UUID PK, generated automatically by Platform when importing the CSV  |
