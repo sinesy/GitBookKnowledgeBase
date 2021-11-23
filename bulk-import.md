@@ -7,8 +7,13 @@ Writing data means inserting records in table or updating them.
 Typical problems to deal with when importing data are:
 
 * how to speed up the import process (e.g. loading 1M rows from a file in a few minutes and not in days or weeks)
-* updating already existing records, where a specific record can be identified by a set of fields which are not the PK but they can be used to identity a single record (e.g. COMPANY\_ID + CODE instead of a PK based on a single numeric field like PROG\_ID)
-* validating input data in terms of: **NOT NULL** constraints, **type** validation (e.g. an integer, e decimal number, a date expressed as yyyy-MM-dd, a date+time expressed as yyyy-MM-dd HH:mm), **length** validation (e.g. a text no more larger than x characters, an integer having no more than N digits, a decimal number having no more than N/M int/dec digits), **allowed values **(compared with an enumeration of allowed values, like "Y" or "N")
+* updating already existing records, where a specific record can be identified by a set of fields which are not the PK but they can be used to identity a single record (e.g. COMPANY\_ID + CODEs instead of a PK based on a single numeric field like PROG\_ID)
+* validating input data in terms of:&#x20;
+  * **NOT NULL** constraints
+  * **type** validation (e.g. an integer, e decimal number, a date expressed as yyyy-MM-dd, a date+time expressed as yyyy-MM-dd HH:mm)
+  * **length** validation (e.g. a text no more larger than x characters, an integer having no more than N digits, a decimal number having no more than N/M int/dec digits)
+  * **allowed values **(compared with an enumeration of allowed values, like "Y" or "N")
+  * **unique keys**, i.e. a set of fields defined in this border table with represent a unique record (e.g. FIRST\_NAME + LAST\_NAME or EMAIL for a customer border table).
 * validating input data with respect to other tables, i.e. through a **foreign key **(e.g. a CODE passed in input to validate using another table where CODE is one of its fields to check out and then fetch its PROD\_ID primary key)
 
 The best way to manage all these issues is by splitting them into a sequence of steps:
@@ -16,7 +21,7 @@ The best way to manage all these issues is by splitting them into a sequence of 
 1. **loading a CSV file to a border table **"**x\_**_**csv**"._ This table must have a simple structure: a CLOB field hosting the whole CSV raw, a numeric PK (e.g. ROWID), other fields to partition data per tenant (e.g. COMPANY\_ID). The aim of this table is to forget the file and work only on a database level, which is way faster than working with files. **A grid can be defined to show and edit the CLOB content, splitted in many columns, one for each CSV column. ** Editing is helpful to fix input data through the grid, in case of validation errors. Additional fields can be added:&#x20;
    * ERRORS - text field to store a list of errors (e.g a JSON list of errors)
    * CONTAINS\_ERRORS - char field used to store an error condition (Y/N)
-2. **validating  data in terms of mandatory, type, length and enumeration, by loading a second border table**; a second table is now needed in order to host each field; consequently a mapping is needed between the CLOB field in the first border table to N fields in the second border table. During this step, the validation is performed. In case of errors, these are stored in the first border table: fixes can be applied in the first border table and then the validation can be re-executed.&#x20;
+2. **validating  data in terms of mandatory, type, length, enumeration and unique key, by loading a second border table**; a second table is now needed in order to host each field; consequently a mapping is needed between the CLOB field in the first border table to N fields in the second border table. During this step, the validation is performed. In case of errors, these are stored in the first border table: fixes can be applied in the first border table and then the validation can be re-executed.&#x20;
 3. **validating data in terms of foreign keys, by using destination tables to check out values (FKs)** - destination tables are needed to checkout a CODE and get the PK (e.g. PROG\_ID); the second border table must contain not only CODE fields but also the FK (PROG\_ID). In order to speed up this process, a limited amount of UPDATES must be carried out.
 4. **loading data from the border table to destination tables** - the second border table contains all data required to fill in any destination table: only INSERT or UPDATE operation are now needed, except for the calculation of the PK for a destination table, in case this is based on an UUID or a counter (reckoned through a counter table). In order to speed up the calculation of counters, a unique UPDATE must be carried out: in this way, a lock is performed only once and one only update operation is performed.
 
@@ -94,21 +99,24 @@ utils.mapClobFieldToTable(settings);
 
 where settings is a javascript object containing the following attributes
 
-| Attribute name      | Description                                                                                                                             |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| srcDatasourceId     | datasource id used to access the first** **border table (can be null: default schema)                                                   |
-| srcTableName        | x\_csv first border table name (e.g. BT01\_ITEMS\_CSV)                                                                                  |
-| destDatasourceId    | datasource id used to access the second** **border table (can be null: default schema)                                                  |
-| destTableName       | x\_data second border table name (e.g. BT02\_ITEMS\_DATTA)                                                                              |
-| clobFieldName       | optional; in case of a table where the the field name in the border table, having CLOB type and used to store a CSV raw                 |
-| separator           | CSV separator: ; or .                                                                                                                   |
-| errorFieldName      | field name in the FIRST border table where saving validation errors fired when loading the second border table                          |
-| commitSize          | in case of a very large result set, commit is essential after a block of data written; e.g. 1000                                        |
-| containsErrorsField | field name in the FIRST border table used as flag Y/N, set to Y in case of validation errors fired when loading the second border table |
-| asIsFields          | javascript object containing the mapping between fields in the first border table and the second one                                    |
-| defaultFields       | javascript object containing fields+values to fill in the second border table                                                           |
-| mappingFields       | javascript Array containing javascript objects, each related to a mapping from the CLOB field and fields in the second border table     |
-| commitSize          | block of records to save in the second border table after that a commit is performed                                                    |
+| Attribute name      | Description                                                                                                                                                                                                                                                |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| srcDatasourceId     | datasource id used to access the first** **border table (can be null: default schema)                                                                                                                                                                      |
+| srcTableName        | x\_csv first border table name (e.g. BT01\_ITEMS\_CSV)                                                                                                                                                                                                     |
+| destDatasourceId    | datasource id used to access the second** **border table (can be null: default schema)                                                                                                                                                                     |
+| destTableName       | x\_data second border table name (e.g. BT02\_ITEMS\_DATTA)                                                                                                                                                                                                 |
+| clobFieldName       | optional; in case of a table where the the field name in the border table, having CLOB type and used to store a CSV raw                                                                                                                                    |
+| separator           | CSV separator: ; or .                                                                                                                                                                                                                                      |
+| errorFieldName      | field name in the FIRST border table where saving validation errors fired when loading the second border table                                                                                                                                             |
+| commitSize          | in case of a very large result set, commit is essential after a block of data written; e.g. 1000                                                                                                                                                           |
+| containsErrorsField | field name in the FIRST border table used as flag Y/N, set to Y in case of validation errors fired when loading the second border table                                                                                                                    |
+| asIsFields          | javascript object containing the mapping between fields in the first border table and the second one                                                                                                                                                       |
+| defaultFields       | javascript object containing fields+values to fill in the second border table                                                                                                                                                                              |
+| mappingFields       | javascript Array containing javascript objects, each related to a mapping from the CLOB field and fields in the second border table                                                                                                                        |
+| uniqueKeys          | optional: if specified, it is a String representing the list of fields defined in this border table which represent a unique key (e.g. "FIRST\_NAME,LAST\_NAME or "EMAIL"). Fields must be separated by a comma (this property is NOT an javascript array) |
+| commitSize          | block of records to save in the second border table after that a commit is performed                                                                                                                                                                       |
+
+**Important note:** in order to make it fast this validation process, **it is essential to create an index for the "unique key" **passed as argument to this method. DO NOT create a unique key!
 
 Example of the second border table and javascript:
 
