@@ -8,7 +8,7 @@ Typical problems to deal with when importing data are:
 
 * how to speed up the import process (e.g. loading 1M rows from a file in a few minutes and not in days or weeks)
 * updating already existing records, where a specific record can be identified by a set of fields which are not the PK but they can be used to identity a single record (e.g. COMPANY\_ID + CODE instead of a PK based on a single numeric field like PROG\_ID)
-* validating input data in terms of: **NOT NULL** constraints, **type** validation (e.g. an integer, e decimal number, a date expressed as yyyy-MM-dd, a date+time expressed as yyyy-MM-dd HH:mm), **length** validation (e.g. a text no more larger than x characters, an integer having no more than N digits, a decimal number having no more than N/M int/dec digits)
+* validating input data in terms of: **NOT NULL** constraints, **type** validation (e.g. an integer, e decimal number, a date expressed as yyyy-MM-dd, a date+time expressed as yyyy-MM-dd HH:mm), **length** validation (e.g. a text no more larger than x characters, an integer having no more than N digits, a decimal number having no more than N/M int/dec digits), **allowed values **(compared with an enumeration of allowed values, like "Y" or "N")
 * validating input data with respect to other tables, i.e. through a **foreign key **(e.g. a CODE passed in input to validate using another table where CODE is one of its fields to check out and then fetch its PROD\_ID primary key)
 
 The best way to manage all these issues is by splitting them into a sequence of steps:
@@ -16,7 +16,7 @@ The best way to manage all these issues is by splitting them into a sequence of 
 1. **loading a CSV file to a border table **"**x\_**_**csv**"._ This table must have a simple structure: a CLOB field hosting the whole CSV raw, a numeric PK (e.g. ROWID), other fields to partition data per tenant (e.g. COMPANY\_ID). The aim of this table is to forget the file and work only on a database level, which is way faster than working with files. **A grid can be defined to show and edit the CLOB content, splitted in many columns, one for each CSV column. ** Editing is helpful to fix input data through the grid, in case of validation errors. Additional fields can be added:&#x20;
    * ERRORS - text field to store a list of errors (e.g a JSON list of errors)
    * CONTAINS\_ERRORS - char field used to store an error condition (Y/N)
-2. **validating  data in terms of mandatory, type and length, by loading a second border table**; a second table is now needed in order to host each field; consequently a mapping is needed between the CLOB field in the first border table to N fields in the second border table. During this step, the validation is performed. In case of errors, these are stored in the first border table: fixes can be applied in the first border table and then the validation can be re-executed.&#x20;
+2. **validating  data in terms of mandatory, type, length and enumeration, by loading a second border table**; a second table is now needed in order to host each field; consequently a mapping is needed between the CLOB field in the first border table to N fields in the second border table. During this step, the validation is performed. In case of errors, these are stored in the first border table: fixes can be applied in the first border table and then the validation can be re-executed.&#x20;
 3. **validating data in terms of foreign keys, by using destination tables to check out values (FKs)** - destination tables are needed to checkout a CODE and get the PK (e.g. PROG\_ID); the second border table must contain not only CODE fields but also the FK (PROG\_ID). In order to speed up this process, a limited amount of UPDATES must be carried out.
 4. **loading data from the border table to destination tables** - the second border table contains all data required to fill in any destination table: only INSERT or UPDATE operation are now needed, except for the calculation of the PK for a destination table, in case this is based on an UUID or a counter (reckoned through a counter table). In order to speed up the calculation of counters, a unique UPDATE must be carried out: in this way, a lock is performed only once and one only update operation is performed.
 
@@ -160,25 +160,25 @@ var settings = {
       fieldName: "ITEM_CODE",
       fieldType: "TEXT",
       fieldLength: 20,
-      mandatory:   true,
+      mandatory:   true
     },
     {
       fieldName: "DESCRIPTION",
       fieldType: "TEXT",
       fieldLength: 255,
-      mandatory:   true,
+      mandatory:   true
     },
     {
       fieldName: "BARCODE",
       fieldType: "TEXT",
       fieldLength: 255,
-      mandatory:   true,
+      mandatory:   true
     },
     {
       fieldName: "VAT_CODE",
       fieldType: "TEXT",
       fieldLength: 20,
-      mandatory: Boolean.FALSE,
+      mandatory: Boolean.FALSE
     },
     {
       fieldName: "PRICE",
@@ -186,25 +186,32 @@ var settings = {
       fieldInt: 8,
       fieldDec: 2,
       decSeparator: ".",
-      mandatory:   true,
+      mandatory:   true
     },
     {
       fieldName: "SELL_NR",
       fieldType: "INT",
       fieldInt: 8,
-      mandatory: Boolean.FALSE,
+      mandatory: Boolean.FALSE
     },
     {
       fieldName: "CREATE_DATE",
       fieldType: "DATE",
       dateFormat: "yyyy-MM-dd",
-      mandatory: Boolean.FALSE,
+      mandatory: Boolean.FALSE
     },
     {
       fieldName: "LAST_UPDATE",
       fieldType: "DATETIME",
       dateFormat: "yyyy-MM-dd HH:mm",
-      mandatory: Boolean.FALSE,
+      mandatory: Boolean.FALSE
+    },
+    {
+      fieldName: "FLAG",
+      fieldType: "TEXT",
+      fieldLength: 1,
+      enumeration: "Y,N",
+      mandatory: Boolean.FALSE
     }
     ],
     commitSize: 10000
