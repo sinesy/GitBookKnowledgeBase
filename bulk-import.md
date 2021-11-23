@@ -79,7 +79,7 @@ var settings = {
     datasourceId: null,
     tableName: "BT01_ITEMS_CSV"
 };   
-utils.readCsvAndLoadTable(settings
+utils.readCsvAndLoadTable(settings);
 // Time spent to load 1M raws from a CSV file: 93474ms
 
 ```
@@ -217,7 +217,7 @@ var settings = {
     commitSize: 10000
 };
 
-utils.mapClobFieldToTable(settings
+utils.mapClobFieldToTable(settings);
 // Time spent to map 1M raws of a CSV content stored in a CLOB field of a table to another table: 112075ms
 
 ```
@@ -285,7 +285,7 @@ var settings = {
     toFK: "prog_id",
     commitSize: 10000
 };    
-utils.validateCode(settings // 2112ms + 20709ms
+utils.validateCode(settings); // 2112ms + 20709ms
 // Time spent to decode all records for field VAT_CODE in table BT02_ITEMS_data: 21586ms
 
 var settings = {   
