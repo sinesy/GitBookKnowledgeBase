@@ -248,7 +248,9 @@ By an large, multiple validation errors could be fired for the same record (e.g 
 }
 ```
 
-&#x20;
+This content can be helpful to provide a more detailed explanation about the reason why a CSV line has been rejected and it could be shown easily in a grid panel.&#x20;
+
+
 
 **3. validating data in terms of foreign keys, by using destination tables to check out values (FKs)**
 
