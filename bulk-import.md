@@ -91,7 +91,7 @@ utils.readCsvAndLoadTable(settings);
 
 ****
 
-**2. validating  data in terms of mandatory, type and length, by loading a second border table**
+**2. validating  data in terms of mandatory, type, length, enumeration, key uniqueness, by loading a second border table**
 
 ```javascript
 utils.mapClobFieldToTable(settings);
@@ -241,8 +241,9 @@ By an large, multiple validation errors could be fired for the same record (e.g 
 ```
 {
   fieldName: "...", // the field name violating the validation
-  errorType: "...", // the validation error code; it can be: "CANNOT BE EMPTY","INVALID TYPE",
-"INVALID LENGTH","INVALID DATA","DUPLICATED KEY
+  errorType: "...", // the validation error code; it can be: 
+                    // "CANNOT BE EMPTY","INVALID TYPE",
+                    // "INVALID LENGTH","INVALID DATA","DUPLICATED KEY"
   errorMessage: "...", // a long error message explaining the reason of the validation error (in english)
   data: "..." // the field value violating the validation checking
 }
@@ -335,6 +336,8 @@ var settings = {
 utils.validateCode(settings
 // Time spent to decode all records for field BARCODE in table BT02_ITEMS_data: 31563ms
 ```
+
+**Important note:** in order to make it fast this FK retrieval process, **it is essential to create an index for the list fo fields based in "toTableFilter**" + **"toFieldCode"**.&#x20;
 
 
 
