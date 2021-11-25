@@ -63,6 +63,7 @@ In case of errors when trying to authenticate, a JSON error response is sent bac
 * { “success”: false, “message”: “Password expired”, “errorCode”: “PASSWORD\_EXPIRED” }
 * { “success”: false, “message”: “Account locked”, “errorCode”: “ACCOUNT\_LOCKED” }
 * { “success”: false, “message”: “Max number of requests reached”, “errorCode”: “MAX\_NR\_OF\_REQUESTS\_REACHED” }
+* { "success": false, "message": "Exceeded maximum number of requests for user \<XXX> for \<ALIAS>", "errorCode":"EXCEEDED\_REQUEST\_USER\_MINUTE" }
 * { “success”: false, “message”: “Token expired”, “errorCode”: “TOKEN\_EXPIRED” }
 * { “success”: false, “message”: “Internal error”, “errorCode”: “INTERNAL\_ERROR” }
 
