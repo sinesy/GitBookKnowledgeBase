@@ -86,30 +86,13 @@ SSO section
 
 ****
 
-### **Execute authentication and create the user in Platform**
+### **Execute authentication and auto create the user in Platform**
 
 First of all, you have to setup the settings reported in the previous section, but without creating any sync scheduled process: the sync process will be used only to get information about the current authenticated user and create it in Platform tables, if needed.
 
 The following **Global parameters** must be defined:
 
-* Autocreate user from LDAP
-* Autoupdate user from LDAP
-* Autoassign current role to new LDAP user
-* checking enabled
-* port
-* server
-* account auth format
-* Sync: company, site to use when creating records from LDAP
-* LDAP synchronization
-* Password to use when connecting to LDAP
-* Username to use when connecting to LDAP
-* Base LDAP path when searching for users
-* (optional) Users LDAP filter
-* (optional) fields to manage in LDAP users
-* (optional) field types to manage in LDAP users
-* (optional) LDAP attribute for user id
-* Base LDAP path when searching from groups
-* (optional) Groups LDAP filter
-* (optional) fields to manage in LDAP groups
-* (optional) field types to manage in LDAP groups
-* (optional) LDAP attribute for group id
+* Autocreate user from LDAP - checked
+* Autoupdate user from LDAP - checked
+* Autoassign current role to new LDAP user - role id to set
+
