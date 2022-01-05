@@ -26,7 +26,9 @@ showMessageDialog( "window1.title", "window1.message", function() {}, true, fals
         "cancelButtonCls": "",
         "cancelButtonIcon": "",
         "switchButton": "Y", //Y=cancel-ok; N or null=ok-cancel
-        "buttonAlign": "center" //"left" or "right"
+        "buttonAlign": "center", //"left" or "right"
+        "width": 500, //optional (300 is default): 'auto' for autodimension
+        "height": 300, //optional (160 is default): 'auto' for autodimension
     }
 );
 ```
