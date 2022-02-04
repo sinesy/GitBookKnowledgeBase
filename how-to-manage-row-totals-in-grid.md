@@ -2,7 +2,7 @@
 
 It is possible to add a row containing totals for each column, anchored at the bottom part of the grid. When scrolling grid, this row totals is still visible and locked to the bottom side.
 
-In order to activate this row total, go to the grid definition panel and select the **"row totals" check box**. After doing it, a client-side javascript action is created and linked to the** "Update summary row" grid even**t.
+In order to activate this row total, go to the grid definition panel and select the **"row totals" check box**. After doing it, a client-side javascript action is created and linked to the **"Update summary row" grid even**t.
 
 This action will be automatically invoked every time the data model changes, e.g. when reloading it.
 
@@ -12,13 +12,13 @@ This action receives as input several js objects:
 
 * **gridxxx** - current grid, generating this event
 * **colAttr -** attribute name of the current column: this action is invoked for each column defined in the grid
-* **total **- a numeric value, corresponding to the current total for the current column
+* **total** - a numeric value, corresponding to the current total for the current column
 * **params** - a javascript object containing a few attributes
   * **css** - css class name that can be applied for the current column
   * **id -** column index for the current column
   * **style -** style for the current column
   * **attr\_**'ext:qtip - "Total no. of companies"' tooltip example
-* ** record.data**: data to show in the last row
+* &#x20;**record.data**: data to show in the last row
 * **formattedValue**: current total, reformatted with the same format of the values in the column
 * **col -** current column objects&#x20;
 

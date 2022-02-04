@@ -18,8 +18,8 @@ The amount of data stored in Datastore should then be moved (duplicated) to othe
 A few alternatives are available:
 
 * **CloudSQL database**, i.e. a relational database; this is not a good idea, since a relational database is not able to manage big data (neither TB of data nor millions of records per table, combined with JOINs or other complex operators). **Trying to use a relational database to execute very complex queries on a large amount of data can only lead to (i) very poor performance on executing queries (in the best case) or (ii) it is likely to crash the database sooner or later**
-* **Google BigQuery **- this is a data warehouse, i.e. a "read only" database optimized to store a very large amount of data and  enquiry/analyze it; it supports the SQL language
-* **Google Spanner **- this is a powerful (and very costly) database, able to manage virtually an infinite amount of data (as for a NoSQL database) and supporting the SQL language
+* **Google BigQuery** - this is a data warehouse, i.e. a "read only" database optimized to store a very large amount of data and  enquiry/analyze it; it supports the SQL language
+* **Google Spanner** - this is a powerful (and very costly) database, able to manage virtually an infinite amount of data (as for a NoSQL database) and supporting the SQL language
 
 Platform supports all of them and provides a few features to duplicate data from Datastore to any of them.
 
@@ -37,7 +37,7 @@ In order to do it:
 
 An alternative to the steps 4-5 is using the "**Export from Datastore to BigQuery**" feature, where you can export the whole content (either as insert or update operations) and schedule this job to be execute on a regular basis, using a scheduled process.
 
-**Important note: **it would be better to opt for the "Sync data to db" approach, rather than the export, since it synchronize data in real time (i.e. data will be available in terms of seconds on BigQuery).
+**Important note:** it would be better to opt for the "Sync data to db" approach, rather than the export, since it synchronize data in real time (i.e. data will be available in terms of seconds on BigQuery).
 
 However, in case of a large amount of data created on Datastore (e.g. tens of thousands records per day), the latency due to BigQuery writing (2-3 seconds per record) could represent a limitation. In such a scenario, it can be helpful to add a scheduled process using the "Export from Datastore to BigQuery" feature as well, to duplicate a lot of data in a faster way: inserting multiple records as an export is faster than inserting single records through a real time synchronization.
 
@@ -87,7 +87,7 @@ In the Spanner data model definition window, there is a "Align model from Datast
 
 It also ALTER Spanner table and add new fields coming from Datastore. **This is helpful also when you export->import metadata from one environment to the other.**
 
-**Important note: **it would be better to opt for the "Sync data to db" approach, rather than the export, since it synchronize data in real time.
+**Important note:** it would be better to opt for the "Sync data to db" approach, rather than the export, since it synchronize data in real time.
 
 ## Executing SQL query on CloudSQL
 

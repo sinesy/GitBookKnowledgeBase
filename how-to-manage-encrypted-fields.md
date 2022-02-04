@@ -1,6 +1,6 @@
 # How to manage encrypted fields
 
-Platform can manage text type fields as **encrypted fields. **In order to set them, you have to change the default field type for a data model field, from its original value (text) to the new one: Encrypted Text.
+Platform can manage text type fields as **encrypted fields.** In order to set them, you have to change the default field type for a data model field, from its original value (text) to the new one: Encrypted Text.
 
 When saving a record containing an encrypted field, these fields are encrypted along with the rest of the record, just before saving them.
 
@@ -14,7 +14,7 @@ When the writing operation is carried out manually, without using the standard w
 
 Reading operations of encrypted data is **automatically managed by Platform, when using the standard business components for grid or form with SQL**. It means that Platform would read encrypted data form the table, decrypt it and pass plain text to the UI.
 
-If you do not use the standard Platform components, it is up to you to decrypt data, in a javascript business component of server-side javascript action, using the** utils.decodePassword** method.
+If you do not use the standard Platform components, it is up to you to decrypt data, in a javascript business component of server-side javascript action, using the **utils.decodePassword** method.
 
 ## Filtering encrypted codes
 

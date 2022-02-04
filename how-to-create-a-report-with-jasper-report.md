@@ -48,7 +48,7 @@ A page is also composed of different sections, from top to bottom:
 
 ![](.gitbook/assets/schermata-2020-03-16-alle-15.28.01.png)
 
-It is possible to re-size each of them and hide them if not needed all, by changing their height (by setting it to 0). You can do it in two ways: either by using the drag 'n drop of the borders between two areas or by selecting the area on the palette on the left (**Report inspector**) ** **and set the corresponding height in the **properties palette** on the right.
+It is possible to re-size each of them and hide them if not needed all, by changing their height (by setting it to 0). You can do it in two ways: either by using the drag 'n drop of the borders between two areas or by selecting the area on the palette on the left (**Report inspector**) **** and set the corresponding height in the **properties palette** on the right.
 
 In addition, a report can contain also a **background** layer, which is painted below the transparent main layer, reported above (headers, detail, footers...)
 
@@ -113,7 +113,7 @@ The two main areas for the two parts just described are:
 Using a business component to fill in the detail area can lead to different scenarios:
 
 * still use the **main SQL query** to fill in the Title/Page header area and use the **business component** only for the detail area, when the data retrieval is so complex that a SQL query is simply not the right choice
-* use the **business component both **for filling in the Title/Page header area and for the detail area; this comes in handy when the data retrieval is so complex that a SQL query is simply not the right choice or when the report is not generated starting from a relational database, so that SQL cannot be used
+* use the **business component both** for filling in the Title/Page header area and for the detail area; this comes in handy when the data retrieval is so complex that a SQL query is simply not the right choice or when the report is not generated starting from a relational database, so that SQL cannot be used
 * use **input parameters** to fill in the Title/Page header area and use the **business component** only for the detail area, when the data retrieval is so complex that a SQL query is simply not the right choice
 
 The business component to link here MUST be a "Server-side javascript business component for a list" and, consequently, it must provide a JSON string having this format:
@@ -162,7 +162,7 @@ At this point the content to show is a Date object.
 Finally, set the right format for that field, which can be done in two alternative ways:
 
 * using the **Pattern** property, where a fixed format can be expressed (e.g. dd/MM/yyyy); this is probably unlikely to do, since the report would always has the same format, independently on the current language
-* using the **Pattern expression **property, which can contain something dynamic, reckoned at run-time, example something like: $R{DateFormat}
+* using the **Pattern expression** property, which can contain something dynamic, reckoned at run-time, example something like: $R{DateFormat}
 
 In the second scenario, you have to include a DateFormat key in any .properties file, where there can be a value as follows:
 
@@ -189,7 +189,7 @@ new java.math.BigDecimal($F{myStringTypeField})
 In order to set the right format, set the right format for that field, which can be done in two alternative ways:
 
 * using the **Pattern** property, where a fixed format can be expressed (e.g. #,##0.00); this is probably unlikely to do, since the report would always has the same format, independently on the current language
-* using the **Pattern expression **property, which can contain something dynamic, reckoned at run-time, example something like: $R{NumberFormat}
+* using the **Pattern expression** property, which can contain something dynamic, reckoned at run-time, example something like: $R{NumberFormat}
 
 In the second scenario, you have to include a NumberFormat key in any .properties file, where there can be a value as follow:
 
@@ -205,9 +205,9 @@ With regards to the translation of labels, a series of .properties text files mu
 
 A good practice is to name them as the .jrxml file name. For instance, if the template is **myfile.jrxml,** the corresponding translation files can be: **myfile\_it.properties, myfile\_en.properties**
 
-**Important note: **Pay attention to the language identifiers: they must be expressed in lowercase, otherwise with case-sensitive operating systems like Linux/Unix it would not be recognized.
+**Important note:** Pay attention to the language identifiers: they must be expressed in lowercase, otherwise with case-sensitive operating systems like Linux/Unix it would not be recognized.
 
-**Important note: **it is important to set the **Resource bundle** report property with the base name for all .properties file, i.e. **myfile**
+**Important note:** it is important to set the **Resource bundle** report property with the base name for all .properties file, i.e. **myfile**
 
 Once done, the right translations will be automatically fetched at runtime, when executing the report template, according to the language.
 
@@ -218,7 +218,7 @@ Invoice=Fattura
 Customer=Cliente
 ```
 
-**Important note: **you cannot translate Static fields, only Text fields: a Text field can be used to contain something to translate, using the special notation:
+**Important note:** you cannot translate Static fields, only Text fields: a Text field can be used to contain something to translate, using the special notation:
 
 ```
 $R{textToTranslate}

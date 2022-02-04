@@ -1,6 +1,6 @@
 # formatting a column
 
-In case a **numeric column needs to be formatted in a specific way, **it is possible to use the “data format” setting, available in the “columns” folder of the grid panel definition window.
+In case a **numeric column needs to be formatted in a specific way,** it is possible to use the “data format” setting, available in the “columns” folder of the grid panel definition window.
 
 [![format](http://4wsplatform.org/wp-content/uploads/2015/12/format-1024x241.jpeg)](http://4wsplatform.org/wp-content/uploads/2015/12/format.jpeg)
 

@@ -24,7 +24,7 @@ where
 The last object is the most helpful, since it contains methods which can be used for a variety of different usages:
 
 * **node.childNodes** - a javascript Array containing the nodes retrieved from the server and already added to the current expanded node; you can scroll through them and change some of their properties, if needed; for example the CSS to add to them of whether they are leaves or not
-* **int getDepth() **- the current node depth (starting from 0, the root node) - helpful to figure out which children nodes are leaves
+* **int getDepth()** - the current node depth (starting from 0, the root node) - helpful to figure out which children nodes are leaves
 * **attribute** - contains the record binded to the current node, helpful along with the depth to figure out if the children nodes are leaves
 * **setLeaf(boolean isLeaf)** - used to mark the node as a leaf
 * **setCls(String css)** - a method used to add a CSS class to the node; through it you can for example override the default rendering of the node (size, background, icon, etc.)

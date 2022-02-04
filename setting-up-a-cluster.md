@@ -34,8 +34,8 @@ In the next sections alternative solutions are reported, according to the comple
 The cheapest solution is:
 
 * Load balancer
-  * VM1 - manages online functionalities;** this VM has a fixed IP**
-  * VM2 - manages batch functionalities (scheduled processed and queues);** this VM has a fixed IP**
+  * VM1 - manages online functionalities; **this VM has a fixed IP**
+  * VM2 - manages batch functionalities (scheduled processed and queues); **this VM has a fixed IP**
 
 This represents the cheapest solution; anyway, it contains two bottlenecks: the VMs are fixed; if they collapse for some reason, the corresponding functionalities are not available any more.&#x20;
 
@@ -107,7 +107,7 @@ In order to configure the environment as reported above, you have to activate th
                 </init-param>
 ```
 
-In any case, you do** not have** to set the SCHEDULER and QUEUES settings (main node) as described in the previous sections.&#x20;
+In any case, you do **not have** to set the SCHEDULER and QUEUES settings (main node) as described in the previous sections.&#x20;
 
 In this way, when starting the Platform web applications , each Platform web app will compete to become the main node; moreover, periodically each of these node will check out for the main node availability and can replace it with itself, in case it does not respond any more.
 
@@ -130,7 +130,7 @@ In order to configure the environment as reported above, you have to distinguish
 * the online template VM should have the cluster flag set to false
 * the batch template VM should have the cluster flag set to true
 
-In any case, you do** not have** to set the SCHEDULER and QUEUES settings (main node) as described in the previous sections.&#x20;
+In any case, you do **not have** to set the SCHEDULER and QUEUES settings (main node) as described in the previous sections.&#x20;
 
 In this way, when starting the Platform web applications for  the batch instance group, each Platform web app will compete to become the main node; moreover, periodically each of these node will check out for the main node availability and can replace it with itself, in case it does not respond any more.
 
@@ -143,7 +143,7 @@ If you have activated a cluster with the tag \<cluster>true\</true> there is not
 In case of a cluster having a main node (for scheduled processed/queues), that is to say, with the tag \<cluster>false\</true>, you have also to set 2 additional global properties, in order to make notifications work correctly:
 
 * **MESSAGES\_URL\_SERVER** - this property must contain an URL, related to the fixed node always available and should be set with something like: **https://fixedIP/plktform**
-* **MESSAGES\_IP **this property must contain the IP, related to the fixed node always available and should be set with something like: **fixedIP**
+* **MESSAGES\_IP** this property must contain the IP, related to the fixed node always available and should be set with something like: **fixedIP**
 
 You have always to set both, otherwise you could have loops with the fixed node calling itself.
 
@@ -185,7 +185,7 @@ You can let Platform  update automatically these settings, if you add the follow
 In this way, each time a node is created and the Tomcat service started, Platform would enquiry GCP web service layer in order to get up to 3 "custom parameters" defined at instance group level:
 
 * **env** - (optional) this is the name of the running environment; if found, Platform will override the default value set in the web.xml file and use it internally. You can use the server-side javascript function **utils.getEnvironment()** to get this value
-* **batch** - (optional) this parameter can be filled with Y or N; if set to Y, Platform will recognize the current VM as the main node and update CON44\__COMMON\_PARAMS records related to the parameters: _
+* **batch** - (optional) this parameter can be filled with Y or N; if set to Y, Platform will recognize the current VM as the main node and update CON44\__COMMON\_PARAMS records related to the parameters:_&#x20;
   * _QUEUE\__IP - set with the VM local IP
   * QUEUE\__IP\__LOCKED - set to Y
   * _SCHEDULER\__IP - set with the VM local IP
@@ -247,7 +247,7 @@ There can be other 3 company ids (00001,0002,0003) which require a faster respon
 
 All other elements, having a payload not matching these 4 company ids will be managed by the default thread (first thread).
 
-In order to make these settings working, it is also needed to pass forward to the element such a payload:  when enqueuing an element in the queue, use the **utils.enqueueActionWithNote() **function and use the last argument (note) to pass forward the payload. The queue system will match this payload value for the element with the ones specified in the Queue Settings functionality and decide for each element in which thread it will processed.
+In order to make these settings working, it is also needed to pass forward to the element such a payload:  when enqueuing an element in the queue, use the **utils.enqueueActionWithNote()** function and use the last argument (note) to pass forward the payload. The queue system will match this payload value for the element with the ones specified in the Queue Settings functionality and decide for each element in which thread it will processed.
 
 
 

@@ -26,6 +26,6 @@ var list = utils.getXlsContentWithEncoding(
 // at the end, list is a javascript Array containing javascript objects, one for each row read from the xls file
 ```
 
-**Important note: ** values stored in each javascript object can be accessed as: object.get("attributeName")
+**Important note:** values stored in each javascript object can be accessed as: object.get("attributeName")
 
-**Important note: **do not try to read a large amount of rows from a spreadsheet; xls files are not a good format to save data, since it consumes a lot of memory; it would ALWAYS be better to read a csv file instead.
+**Important note:** do not try to read a large amount of rows from a spreadsheet; xls files are not a good format to save data, since it consumes a lot of memory; it would ALWAYS be better to read a csv file instead.

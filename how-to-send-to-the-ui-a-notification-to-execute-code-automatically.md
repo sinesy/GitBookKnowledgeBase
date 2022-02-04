@@ -8,7 +8,7 @@ The server-side utility method available through the **utils** object has the fo
 
 having the following arguments:
 
-* **fromUser - **the username who sends this notification
+* **fromUser -** the username who sends this notification
 * **javascriptObjectToPassForward** - a js object containing attributes to pass forward to the client-side js function to invoke
 * **destinationUsers** - a string containing a list of usernames (separated by a comma) identifying the destination users who would receive this notification
 * **javascriptFuntionName** - a string value containing the name of a client-side js function, which must be available
