@@ -47,6 +47,24 @@ In the BigQuery data model definition window, there is an "Align model from Data
 
 It also ALTER BigQuery table and add new fields coming from Datastore. **This is helpful also when you export->import metadata from one environment to the other.**
 
+****
+
+### **Waiting for updated data commited on BigQuery**
+
+When synchronizing data from Datastore to BigQuery, the data alignment is asynchrounous, since writing single records to BigQuery is a slow operation (it can takes several seconds).
+
+In exceptional cases (which cannot become the daily rule), it is possible to force a synchronous writing of data on BigQuery, when saving data (in insert/update) on Datastore starting from a grid or form. In such a scenario, you have to pass forward to the standard Platform web services (setlist & setdetail) an additional parameter: "\&realTime=true" to append to the URL generated when saving data from a grid/form. In order to do it, link a client-side js action to the "before saving data on insert/update" events. The bound action should contain something like:
+
+```javascript
+additionalParams = "&realTime=true";
+```
+
+In this way, the sync operation on BigQuery would be synchronous and retrieved data on grid/form is fresh. Anyway, additional seconds are needed when saving data.
+
+It would be way better to _avoid automatic grid/form reloading when saving data on grid/form_: this behavior is not needed, since grid/form are already updated behind the scenes with the fresh data coming from the server, through the JSON response.
+
+****
+
 ### **Executing queries with aggregated functions**
 
 In case you need to execute a SQL query not only involving fields of the synchronized table but also aggregated functions like SUM, COUNT, etc. combined with GROUP BY keyword, you can di it using the already existing Platform features:
