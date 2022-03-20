@@ -21,7 +21,7 @@ The best way to manage all these issues is by splitting them into a sequence of 
 1. **loading a CSV file to a border table** "**x\_**_**csv**"._ This table must have a simple structure: a CLOB field hosting the whole CSV raw, a numeric PK (e.g. ROWID), other fields to partition data per tenant (e.g. COMPANY\_ID). The aim of this table is to forget the file and work only on a database level, which is way faster than working with files. **A grid can be defined to show and edit the CLOB content, splitted in many columns, one for each CSV column.** Editing is helpful to fix input data through the grid, in case of validation errors. Additional fields can be added:&#x20;
    * ERRORS - text field to store a list of errors (e.g a JSON list of errors)
    * CONTAINS\_ERRORS - char field used to store an error condition (Y/N)
-2. **validating  data in terms of mandatory, type, length, enumeration and unique key, by loading a second border table**; a second table is now needed in order to host each field; consequently a mapping is needed between the CLOB field in the first border table to N fields in the second border table. During this step, the validation is performed. In case of errors, these are stored in the first border table: fixes can be applied in the first border table and then the validation can be re-executed.&#x20;
+2. **validating  data in terms of mandatory, type, length, enumeration and unique key** (the last validation requires to fill in a second border table, where the uniqueness  constraint can be reckoned easily); a second table is now needed in order to host each field; consequently a mapping is needed between the CLOB field in the first border table to N fields in the second border table. During this step, all validations reported above are performed. In case of errors, these are stored in the first border table: fixes can be applied in the first border table and then the validation can be re-executed.&#x20;
 3. **validating data in terms of foreign keys, by using destination tables to check out values (FKs)** - destination tables are needed to checkout a CODE and get the PK (e.g. PROG\_ID); the second border table must contain not only CODE fields but also the FK (PROG\_ID). In order to speed up this process, a limited amount of UPDATES must be carried out.
 4. **loading data from the border table to destination tables** - the second border table contains all data required to fill in any destination table: only INSERT or UPDATE operation are now needed, except for the calculation of the PK for a destination table, in case this is based on an UUID or a counter (reckoned through a counter table). In order to speed up the calculation of counters, a unique UPDATE must be carried out: in this way, a lock is performed only once and one only update operation is performed.
 
@@ -339,11 +339,13 @@ utils.validateCode(settings
 
 **Important note:** in order to make it fast this FK retrieval process, **it is essential to create an index for the list fo fields based in "toTableFilter**" + **"toFieldCode"**.&#x20;
 
-**Important note**: in case you have the border table and the destination table to check in **different schemas** and the destination table contains **more than a thousand records**, you need to **grant access to the destination table from the border table schema**. A typical SQL instruction to grant access would be:
+**Important note**: in case you have the border table and the destination table to check in **different schemas** and the border table contains **more than a thousand distinct codes to validate**, you need to **grant access to the destination table from the border table schema**. A typical SQL instruction to grant access would be:
 
 ```
 GRANT SELECT, SHOW VIEW ON destinationtableschema.DEST_TABLE_NAME to 'bordertableuser'
 ```
+
+That grant is required only in case of a large amount of distinct codes to validate, because the validateCode method first checks for the number of distinct codes to validate: if the number is lower than a thousand, there are read from the destination table, cached and used to fill in the border table FK field; in case the distinct codes are greater than a thousand, a single UPDATE operation to the border table is performed, combined with a SELECT on the destination table: in this scenario, a grant between the two schemas is needed in case of tables belonging to different schemas.
 
 
 
