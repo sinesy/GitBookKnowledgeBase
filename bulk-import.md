@@ -339,6 +339,12 @@ utils.validateCode(settings
 
 **Important note:** in order to make it fast this FK retrieval process, **it is essential to create an index for the list fo fields based in "toTableFilter**" + **"toFieldCode"**.&#x20;
 
+**Important note**: in case you have the border table and the destination table to check in **different schemas** and the destination table contains **more than a thousand records**, you need to **grant access to the destination table from the border table schema**. A typical SQL instruction to grant access would be:
+
+```
+GRANT SELECT, SHOW VIEW ON destinationtableschema.DEST_TABLE_NAME to 'bordertableuser'
+```
+
 
 
 **4. loading data from the border table to destination tables**
