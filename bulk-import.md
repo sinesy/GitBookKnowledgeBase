@@ -345,7 +345,7 @@ utils.validateCode(settings
 GRANT SELECT, SHOW VIEW ON destinationtableschema.DEST_TABLE_NAME to 'bordertableuser'
 ```
 
-That grant is required only in case of a large amount of distinct codes to validate, because the validateCode method first checks for the number of distinct codes to validate: if the number is lower than a thousand, there are read from the destination table, cached and used to fill in the border table FK field; in case the distinct codes are greater than a thousand, a single UPDATE operation to the border table is performed, combined with a SELECT on the destination table: in this scenario, a grant between the two schemas is needed in case of tables belonging to different schemas.
+That grant is required only in case of a large amount of distinct codes to validate, because the validateCode method first checks for the number of distinct codes to validate: if the number is lower than a thousand, these codes are read from the destination table, cached and used to fill in each border table FK field; in case the distinct codes are greater than a thousand, a single UPDATE operation on the border table is performed, combined with a SELECT on the destination table: in such a scenario, a grant between the two schemas is needed in case of tables belonging to different schemas.
 
 
 
