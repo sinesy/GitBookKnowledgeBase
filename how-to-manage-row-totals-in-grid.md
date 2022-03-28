@@ -111,3 +111,44 @@ utils.setReturnValue(JSON.stringify(obj));
 ```
 
 The callback function is helpful to manage the total number for each column: it can redefine the total, format it or set an additional CSS for thast cell, dynamically.
+
+**Note**: **summaryRow method is synchronous**, i.e. it invokes the server-side to retrieve totals every time the grid is loaded and once got data, it shows data on the summary row.
+
+Al alternative approach is using the **asynchronous** version, described below.
+
+
+
+(From 6.0.2) The asynchronous utility function has the following syntax:
+
+```javascript
+summaryRowAsync(grid,actionId,reqParams,colAttr,callback)
+```
+
+Required arguments are:
+
+* **grid** - the current, containing the total row
+* **actionId** - the id for the server-side action returning totals, one attribute for each column having a total
+* **reqParams** - optional parameters to pass forward to the server-side action; can be set to null
+* **callback** -  js function invoked for each attribute; arguments passed to the function: callback(colAttr,num,params)
+
+An example of usage is as follows:
+
+```javascript
+return summaryRowAsync(
+    gridxx,
+    xyz, // actionId for the server-side js action
+    {}, // req params
+    colAttr,
+    function(num) {
+        if (colAttr=="docTotal")
+          return num;
+        else if (colAttr=="customerCredit") {
+            if (num<0)
+              params.css = "red";
+            return num;
+        }
+    }
+);
+```
+
+From the point of view of the rendering, the difference with this second function is that data is retrieved in async way and, consequently, it can be rendered on the summary row later, once data has been returned from the server.
