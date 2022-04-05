@@ -6,7 +6,7 @@ Basically, there can be 3 possible scenarios and for each one, a possible soluti
 
 In all these cases, the error is fired by Platform when using the server-side javascript function:
 
-```text
+```
 utils.getWebService(...)
 ```
 
@@ -18,7 +18,7 @@ Unfortunately, when using Platform with JDK 1.7, the most recent certificate aut
 
 An error you can come across due to a lack of certificates is
 
-```text
+```
 Wrapped javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: 
 PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: 
 unable to find valid certification path to requested target
@@ -31,7 +31,7 @@ with Windows s.o.
 * open with a text editor the file included within the JVM installation dir: xxx\jre\lib\security\java.security
 * set the parameter "keystore.type" as follows:
 
-```text
+```
 #
 # Default keystore type.
 #
@@ -44,7 +44,7 @@ keystore.type=Windows-ROOT
 
 * save the file and restart the Tomcat service
 
-## **2. Problems due to the feature named Server Name Identification \(SNI\) not set or erroneously set**
+## **2. Problems due to the feature named Server Name Identification (SNI) not set or erroneously set**
 
 According to the settings of the server to connect to, it is possible that this has been configured in order to
 
@@ -53,7 +53,7 @@ According to the settings of the server to connect to, it is possible that this 
 
 When coming accross with an error like
 
-```text
+```
 java.io.IOException: javax.net.ssl.SSLHandshakeException: Received fatal alert: unrecognized_name
 ```
 
@@ -64,7 +64,7 @@ with Windows o.s.
 * go to tomcat/bin subfolder and double click configService.bat
 * go to "Java" subfolder and add the following line in the "Java Options" input box:
 
-```text
+```
 -Djsse.enableSNIExtension=true
 ```
 
@@ -75,7 +75,7 @@ with Linux o.s.
 * go to tomcat/bin subfolder and using a text editor open the catalina.sh file
 * find the JAVA\_OPTS variable and append this line:
 
-```text
+```
 -Djsse.enableSNIExtension=true
 ```
 
@@ -85,17 +85,21 @@ with Linux o.s.
 
 If you erroneously set it and get an error such as
 
-```text
+```
 HTTPS hostname wrong: should be ...
 ```
 
 it means you do not have to include the enableSNIExtension directive: remove it or set it to false.
 
+
+
+**Note**: in case you need both requests with SNI enabled (for third party web services requiring it( and without it enabled (e.g. Platform to Platform servers), you'd better pass this setting at request level (customize it for each request), through the [utils.getWebContentWithSettings](https://4wsplatform.gitbook.io/api/server-side-javascript-api/http#execute-an-http-s-connection-and-fetch-the-result-most-flexible-version) method.
+
 ## **3. Problems due to a specific TLS version required by the server**
 
 If you get connection errors, like
 
-```text
+```
 "connection reset"
 ```
 
@@ -108,7 +112,7 @@ with Windows o.s.
 * go to tomcat/bin subfolder and double click configService.bat
 * go to "Java" subfolder and add the following line in the "Java Options" input box:
 
-```text
+```
 -Dhttps.protocols=TLSv1.1,TLSv1.2
 ```
 
@@ -119,9 +123,8 @@ with Linux o.s.
 * go to tomcat/bin subfolder and using a text editor open the catalina.sh file
 * find the CATALINA\_OPT variable and append this line:
 
-```text
+```
 -Dhttps.protocols=TLSv1.1,TLSv1.2
 ```
 
 * save the text file and restart the Tomcat service
-
