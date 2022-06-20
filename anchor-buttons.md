@@ -12,7 +12,7 @@ if you have a large window with many panels and you want to create links to see 
 
 2\. Select the panel where you want to create a link and select the "**Create anchor button**" menu&#x20;
 
-![](<.gitbook/assets/image (11).png>)
+![](<.gitbook/assets/image (11) (1).png>)
 
 3\. Now you can define the anchor button. Select the **container** for the anchor button; type the label of button and select the container panel which is scrollable.&#x20;
 

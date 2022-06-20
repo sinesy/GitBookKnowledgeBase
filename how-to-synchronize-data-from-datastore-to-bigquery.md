@@ -9,12 +9,25 @@ In order to do it:
 3. Use the "**Duplicate Datastore object to BigQuery**" command, available on the Data model list; this feature creates a new data model (having "big query" type) starting from the selected Datastore type model; the new object has the same name and field names/types. If you need to align structural changes applied to the Datastore original object to the new one, you can add additional fields to the destination object.
 4. Use the "**Sync data to db**" checkbox in the data model definition window for the Datastore object: once checked it, every insert/update/delete operation applied to the Datastore entity will be duplicated in the target relational table; there is not a latency on the Datastore side: the duplication operation is always performed on a separated thread.
 5. Optionally, you can also refine the sync rule and limit data to duplicate, using a filtering condition (e.g. companyId==00000)
+6. Optionally, you can change the default settings for the synchronization process, i.e. **Standard** and set it to **Streaming**.
+
+![](<.gitbook/assets/image (11).png>)
+
+In **Standard** mode, when inserting/updating records on Datastore, every operation is sent to GAE and enqueued. Operations are then processed sequentially using the DML BigQuery API. Such approach has the limitation of 5 records every 10 seconds and it has the perk of managing insert/update/delete operations in "near real time".
+
+An alternative approach is setting the **Streaming** mode, where insert/update Datastore operations are changed to insert operations in the BigQuery table and these records cannot be changed (neither updated nor deleted) in real time. Operations in BigQuery are very fast and they do not require any more a GAE queue to process them.
+
+Only after waiting 30 minutes these records can be removed.
+
+
 
 An alternative to the steps 4-5 is using the "**Export from Datastore to BigQuery**" feature, where you can export the whole content (either as insert or update operations) and schedule this job to be execute on a regular basis, using a scheduled process.
 
 **Important note:** it would be better to opt for the "Sync data to db" approach, rather than the export, since it synchronize data in real time (i.e. data will be available in terms of seconds on BigQuery).
 
-However, in case of a large amount of data created on Datastore (e.g. tens of thousands records per day), the latency due to BigQuery writing (2-3 seconds per record) could represent a limitation. In such a scenario, it can be helpful to add a scheduled process using the "Export from Datastore to BigQuery" feature as well, to duplicate a lot of data in a faster way: inserting multiple records as an export is faster than inserting single records through a real time synchronization.
+However, in case of a large amount of data created on Datastore (e.g. tens of thousands records per day), the latency due to BigQuery writing (2-3 seconds per record with the **Standard** mode) could represent a limitation. In such a scenario, it can be helpful to add a scheduled process using the "Export from Datastore to BigQuery" feature as well, to duplicate a lot of data in a faster way: inserting multiple records as an export is faster than inserting single records through a real time synchronization.
+
+An alternative is the faster option **Streaming**.
 
 ### **Aligning data structure between Datastore (master repository) and BigQuery**
 
