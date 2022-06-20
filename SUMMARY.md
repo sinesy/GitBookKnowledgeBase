@@ -97,3 +97,4 @@
 * [Bulk import](bulk-import.md)
 * [How to display the data not found message in a grid](how-to-display-the-data-not-found-message-in-a-grid.md)
 * [How to setup an LDAP based authentication](how-to-setup-an-ldap-based-authentication.md)
+* [How to synchronize data from Datastore to BigQuery](how-to-synchronize-data-from-datastore-to-bigquery.md)
