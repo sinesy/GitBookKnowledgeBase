@@ -15,9 +15,15 @@ In order to do it:
 
 In **Standard** mode, when inserting/updating records on Datastore, every operation is sent to GAE and enqueued. Operations are then processed sequentially using the DML BigQuery API. Such approach has the limitation of 5 records every 10 seconds and it has the perk of managing insert/update/delete operations in "near real time".
 
-An alternative approach is setting the **Streaming** mode, where insert/update Datastore operations are changed to insert operations in the BigQuery table and these records cannot be changed (neither updated nor deleted) in real time. Operations in BigQuery are very fast and they do not require any more a GAE queue to process them.
+See [Quotas and limits](https://cloud.google.com/bigquery/quotas#dataset\_limits) for more details.
+
+An alternative approach is setting the **Streaming** mode, where insert/update Datastore operations are changed to insert operations in the BigQuery table and these records cannot be changed (neither updated nor deleted) in real time. Delete operations on Datastore are ignored on BigQuery (not synchronized).&#x20;
+
+Operations in BigQuery are very fast and they do not require any more a GAE queue to process them.
 
 Only after waiting 30 minutes these records can be removed.
+
+See [Quotas and limits](https://cloud.google.com/bigquery/quotas#streaming\_inserts) for more details.
 
 
 
@@ -27,7 +33,37 @@ An alternative to the steps 4-5 is using the "**Export from Datastore to BigQuer
 
 However, in case of a large amount of data created on Datastore (e.g. tens of thousands records per day), the latency due to BigQuery writing (2-3 seconds per record with the **Standard** mode) could represent a limitation. In such a scenario, it can be helpful to add a scheduled process using the "Export from Datastore to BigQuery" feature as well, to duplicate a lot of data in a faster way: inserting multiple records as an export is faster than inserting single records through a real time synchronization.
 
-An alternative is the faster option **Streaming**.
+A faster alternative is the **Streaming** mode described above.
+
+
+
+#### Example of table management with Streaming mode
+
+Let's have a table having 3 fields: ITEM\_ID a text field used as a primary key, a QTY numeric field _and a_ datetime __ field LAST\_UPDATE used to store the most recent version of the ITEM\_ID.
+
+An insert operation on Datastore would lead to a similar insert operation on the BigQuery table.
+
+After that, the current qty value would be retrieved through a SELECT QTY from the table having the most recent LAST\_UPDATE, grouped by ITEM\_ID and it would return the only record stored at that time.
+
+Next, an update operation on Datastore would be converted in an insert operation on the BigQuery table.
+
+After that, the current qty value would be retrieved through a SELECT QTY from the table having the most recent LAST\_UPDATE, grouped by ITEM\_ID and it would return the last inserted record, i.e. the one generated when updating Datastore.
+
+Finally, a delete operation on Datastore would be ignored on the BigQuery side. It is up to the developer to include an additional operation to insert in BigQuery a new record having a qty set to 0. This can be accomplished using the method:
+
+```
+utils.importBigQueryThroughStreaming(
+  datasetName,
+  tableName,
+  [{ itemCode: "...", qty: 0, lastUpdate: utils.getcurrentDateAndTime() }]
+);
+```
+
+After that, the current qty value would be retrieved through a SELECT QTY from the table having the most recent LAST\_UPDATE, grouped by ITEM\_ID and it would return the last inserted record, i.e. the one with a qty set to 0.
+
+For a more detailed example, see [Performing large scale mutations in bigquery](https://cloud.google.com/blog/products/bigquery/performing-large-scale-mutations-in-bigquery)
+
+
 
 ### **Aligning data structure between Datastore (master repository) and BigQuery**
 

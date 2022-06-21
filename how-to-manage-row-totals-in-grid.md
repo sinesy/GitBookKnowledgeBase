@@ -73,7 +73,7 @@ Required arguments are:
 * **grid** - the current, containing the total row
 * **actionId** - the id for the server-side action returning totals, one attribute for each column having a total
 * **reqParams** - optional parameters to pass forward to the server-side action; can be set to null
-* **callback** - js function invoked for each attribute; arguments passed to the function: callback(colAttr,num,params)
+* **callback** - js function invoked for each attribute; arguments passed to the function: callback(num, grid, colAttr)
 
 An example of usage is as follows:
 
@@ -83,7 +83,7 @@ return summaryRow(
     xyz, // actionId for the server-side js action
     {}, // req params
     colAttr,
-    function(num) {
+    function(num, grid, colAttr) {
         if (colAttr=="docTotal")
           return num;
         else if (colAttr=="customerCredit") {
@@ -129,7 +129,7 @@ Required arguments are:
 * **grid** - the current, containing the total row
 * **actionId** - the id for the server-side action returning totals, one attribute for each column having a total
 * **reqParams** - optional parameters to pass forward to the server-side action; can be set to null
-* **callback** -  js function invoked for each attribute; arguments passed to the function: callback(colAttr,num,params)
+* **callback** -  js function invoked for each attribute; arguments passed to the function: callback(num, grid, colAttr)
 
 An example of usage is as follows:
 
@@ -139,7 +139,7 @@ return summaryRowAsync(
     xyz, // actionId for the server-side js action
     {}, // req params
     colAttr,
-    function(num) {
+    function(num, grid, colAttr) {
         if (colAttr=="docTotal")
           return num;
         else if (colAttr=="customerCredit") {
