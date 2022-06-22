@@ -55,3 +55,12 @@ customPanelXXX.getFormPanel(index);
 // prefix for the inner pbject attribute
 customPanelXXX.setFormValues(index, values, prefix);
 ```
+
+In this type of panel you can use&#x20;
+
+* text, number and date control
+* dynamic and local combo
+* label
+* button
+* image control
+
