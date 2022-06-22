@@ -2,11 +2,11 @@
 description: Since 6.0.2
 ---
 
-# Replicate form
+# Scrollable form list
 
-If you want replace a grid with a list of editable form you can use a Replicate Form.
+If you want replace a grid with a list of editable forms you can use a Replicated Form.
 
-In editable panel detail you must define the panel like a replicate form.
+In the editable panel detail you must define the panel like a replicated form.
 
 ![](<.gitbook/assets/image (19).png>)
 
