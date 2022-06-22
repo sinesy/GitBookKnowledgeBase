@@ -11,7 +11,7 @@ In order to do it:
 5. Optionally, you can also refine the sync rule and limit data to duplicate, using a filtering condition (e.g. companyId==00000)
 6. Optionally, you can change the default settings for the synchronization process, i.e. **Standard** and set it to **Streaming**.
 
-![](<.gitbook/assets/image (11).png>)
+![](<.gitbook/assets/image (11) (1).png>)
 
 In **Standard** mode, when inserting/updating records on Datastore, every operation is sent to GAE and enqueued. Operations are then processed sequentially using the DML BigQuery API. Such approach has the limitation of 5 records every 10 seconds and it has the perk of managing insert/update/delete operations in "near real time".
 
