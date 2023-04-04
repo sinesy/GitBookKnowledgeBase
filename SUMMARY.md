@@ -101,3 +101,4 @@
 * [How to synchronize data from Datastore to Google Spanner](how-to-synchronize-data-from-datastore-to-google-spanner.md)
 * [How to synchronize data from Datastore to CloudSQL](how-to-synchronize-data-from-datastore-to-cloudsql.md)
 * [Scrollable form list](replicate-form.md)
+* [How to setup SAML authentication](how-to-setup-saml-authentication.md)

@@ -176,7 +176,7 @@ Access the controls and activate the advanced mode, then click on the style colu
 
 For button control you can set also the icon.
 
-![](.gitbook/assets/image.png)
+![](<.gitbook/assets/image (6).png>)
 
 You can set the properties also on panels
 
