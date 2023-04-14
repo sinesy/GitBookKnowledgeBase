@@ -91,7 +91,7 @@ utils.readCsvAndLoadTable(settings);
 
 ```
 
-****
+
 
 **2. validating  data in terms of mandatory, type, length, enumeration, key uniqueness, by loading a second border table**
 
@@ -103,10 +103,10 @@ where settings is a javascript object containing the following attributes
 
 | Attribute name      | Description                                                                                                                                                                                                                                                |
 | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| srcDatasourceId     | datasource id used to access the first **** border table (can be null: default schema)                                                                                                                                                                     |
+| srcDatasourceId     | datasource id used to access the first border table (can be null: default schema)                                                                                                                                                                          |
 | srcTableName        | x\_csv first border table name (e.g. BT01\_ITEMS\_CSV)                                                                                                                                                                                                     |
 | srcFilter           |                                                                                                                                                                                                                                                            |
-| destDatasourceId    | datasource id used to access the second **** border table (can be null: default schema)                                                                                                                                                                    |
+| destDatasourceId    | datasource id used to access the second border table (can be null: default schema)                                                                                                                                                                         |
 | destTableName       | x\_data second border table name (e.g. BT02\_ITEMS\_DATTA)                                                                                                                                                                                                 |
 | clobFieldName       | optional; in case of a table where the the field name in the border table, having CLOB type and used to store a CSV raw                                                                                                                                    |
 | separator           | CSV separator: ; or .                                                                                                                                                                                                                                      |
@@ -225,7 +225,8 @@ var settings = {
       fieldType: "TEXT",
       fieldLength: 1,
       enumeration: "Y,N",
-      mandatory: Boolean.FALSE
+      mandatory: Boolean.FALSE,
+      mapped: false // optional: if set to false, this will not be considered when insert a row in the border table
     }
     ],
     commitSize: 10000
@@ -265,13 +266,13 @@ where settings is a javascript object containing the following attributes
 
 | Attribute name      | Description                                                                                                                                                                                                                                                                                                                  |
 | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| srcDatasourceId     | datasource id used to access the second **** border table (can be null: default schema)                                                                                                                                                                                                                                      |
+| srcDatasourceId     | datasource id used to access the second border table (can be null: default schema)                                                                                                                                                                                                                                           |
 | fromTable           | x\_data second border table name (e.g. BT02\_ITEMS\_DATA)                                                                                                                                                                                                                                                                    |
 | fromTableFilter     | SQL filter (to add to WHERE clause) to filter input data (e.g. COMPANY='00000')                                                                                                                                                                                                                                              |
 | fromRowId           | field name in the border table containing the numeric ID and used to update a single record in the border table in case of validation errors                                                                                                                                                                                 |
 | fromFieldCode       | <p>field name in the border table containing the code to validate in the application table; </p><p>in case of an application table having a unique key composed of multiple fields, you can here specify a list of fields, expressed as a String, where fields are separated by a comma</p>                                  |
 | fromFK              | field name where hosting the PK coming form the application table just validated by code (e.g. FK\_ART02)                                                                                                                                                                                                                    |
-| destDatasourceId    | datasource id used to access the **** application table containing data to check out (can be null: default schema)                                                                                                                                                                                                           |
+| destDatasourceId    | datasource id used to access the  application table containing data to check out (can be null: default schema)                                                                                                                                                                                                               |
 | toTable             | application table name (e.g. ART02\_VATS)                                                                                                                                                                                                                                                                                    |
 | toTableFilter       | SQL filter (to add to WHERE clause) to filter the application table data (e.g. COMPANY='00000')                                                                                                                                                                                                                              |
 | toFieldCode         | <p>field name in the application table, containing the code to check out, in order to validate  the one in the border table; </p><p>in case of an application table having a unique key composed of multiple fields, you can here specify a list of fields, expressed as a String, where fields are separated by a comma</p> |
@@ -361,7 +362,7 @@ where settings is a javascript object containing the following attributes
 
 | Attribute name      | Description                                                                                                                                                                                                                                                                                                                   |
 | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| srcDataSourceId     | datasource id used to access the second **** border table (can be null: default schema)                                                                                                                                                                                                                                       |
+| srcDataSourceId     | datasource id used to access the second border table (can be null: default schema)                                                                                                                                                                                                                                            |
 | fromTable           |  second border table                                                                                                                                                                                                                                                                                                          |
 | fromTableFilter     | SQL filter applied when reading records from the border table (e.g. COMPANY\_ID = '00000')                                                                                                                                                                                                                                    |
 | operation           | <p>can be INSERT or UPDATE. </p><p>In case of INSERT, it is mandatory to fill in other attributes, like idAsxxx progIdxxx. </p><p>In case of UPDATE, the FK field in the border table representing the PK in the destination table must be already be retrieved. If it is not, use the validateCode method to fetch them.</p> |
