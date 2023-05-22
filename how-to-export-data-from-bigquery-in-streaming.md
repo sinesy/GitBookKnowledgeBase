@@ -11,7 +11,8 @@ In order to do it, all these conditions must be true:
 
 > gridxxx.store.baseParams.**streamExport="Y";**
 
-* the export format must be csv comma separated
+* the export format must be csv comma separated, so it would be better to limit the number of export formats to one only
+* the columns declared as exportable must ALL be included in the SELECT, otherwise a field not found error would be returned by BigQuery when attempting to export data.
 
 
 
