@@ -102,3 +102,4 @@
 * [How to synchronize data from Datastore to CloudSQL](how-to-synchronize-data-from-datastore-to-cloudsql.md)
 * [Scrollable form list](replicate-form.md)
 * [How to setup SAML authentication](how-to-setup-saml-authentication.md)
+* [How to export data from BigQuery in streaming](how-to-export-data-from-bigquery-in-streaming.md)
