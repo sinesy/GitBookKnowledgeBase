@@ -56,6 +56,39 @@ showConfirmDialog( "window1.title", "window1.message",
     });
 ```
 
+If you want more buttons you can use this
+
+```javascript
+showConfirmDialogButtons("window1.title", "window1.message", 
+    titleButtons[
+        'button1.title',
+        'button2.title'
+    ], 
+    funButtons[
+        function() {
+          // do something if user has selected the button1
+        },
+        function() {
+          // do something if user has selected the button2
+        }
+    ], 
+    {
+        formCls: null, //'formCls' for example
+        buttonAlign: null, //'center' is the default, 'right' or 'left'
+        windowCls: null, //'windowCls' for example
+        windowIconCls: null, //'windowIconCls' for example
+        clsButtons: [
+            'button1Cls',
+            'button2Cls',
+        ], //optional, you can set null
+      	iconButtons: [
+            '/images/button1Icon.png',
+            '/images/button2Icon.png'
+        ] //optional, you can set null
+    } //options
+);
+```
+
 The third function shows a message dialog with a title, a message and a "ok" button. A callback function providing the inputed value is invoked when pressing the "ok" button; the modal boolean flag is used to make the dialog modal or not.
 
 ## Example
@@ -116,3 +149,5 @@ showMoreInputDialog(
 );
 
 ```
+
+If you want a confirm by user you can use
