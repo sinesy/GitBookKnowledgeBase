@@ -73,7 +73,7 @@ showConfirmDialogButtons("window1.title", "window1.message",
         }
     ], 
     {
-        formCls: null, //'formCls' for example
+        formCls: null, //'cls-form-alert' for example
         buttonAlign: null, //'center' is the default, 'right' or 'left'
         windowCls: null, //'windowCls' for example
         windowIconCls: null, //'windowIconCls' for example
