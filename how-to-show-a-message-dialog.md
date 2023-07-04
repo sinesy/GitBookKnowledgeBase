@@ -77,6 +77,10 @@ showConfirmDialogButtons("window1.title", "window1.message",
         buttonAlign: null, //'center' is the default, 'right' or 'left'
         windowCls: null, //'windowCls' for example
         windowIconCls: null, //'windowIconCls' for example
+        windowWidth: null, // default 300,
+        windowHeight: null, // default 160,
+        windowMinWidth: null, // default 300,
+        windowMinHeight: null, // default 160,        
         clsButtons: [
             'button1Cls',
             'button2Cls',
