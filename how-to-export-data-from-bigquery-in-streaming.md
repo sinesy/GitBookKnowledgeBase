@@ -14,7 +14,13 @@ In order to do it, all these conditions must be true:
 * the export format must be csv comma separated, so it would be better to limit the number of export formats to one only
 * the columns declared as exportable must ALL be included in the SELECT, otherwise a field not found error would be returned by BigQuery when attempting to export data.
 
+**Note:** in case you have a business component NOT linked to a BigQuery type model, but linked to a JS type model, you can still exploit this feature, but you have to force the additiona request parameter:
 
+> gridxxx.store.baseParams.**bigQuery="Y";**
+
+in order to force Platform to manage this b.c. as if it were linked to a BigQuery model.
+
+It can be used ONLY IF the b.c. is using the **getPartialResultOnBigQuery** method.
 
 
 
